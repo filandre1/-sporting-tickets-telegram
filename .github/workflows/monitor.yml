@@ -1,0 +1,37 @@
+name: Bilheteira Sporting CP
+on:
+  schedule:
+    # 11:05 UTC = 11h05 em Lisboa (horário de inverno); em horário de verão são 12h05
+    - cron: "5 11 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install requests
+
+      - name: Verificar bilheteira e enviar alerta
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python monitor.py
+
+      - name: Guardar baseline atualizado
+        run: |
+          git config user.name "bilheteira-bot"
+          git config user.email "actions@github.com"
+          git add baseline.json
+          git diff --cached --quiet && echo "sem mudanças" && exit 0
+          git commit -m "baseline: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          git push
