@@ -1,5 +1,5 @@
 {
-  "baseline_registrado_em": "2026-10-20T11:04:01Z",
+  "baseline_registrado_em": "2026-10-20T11:48:34+00:00",
   "jogos": [
     {
       "id": 21951,
@@ -33,7 +33,7 @@
       "data": "2026-10-27T20:15:00",
       "modalidade": "Futebol",
       "competicao": "Allianz Cup",
-      "jogo": "SPORTING CP vs CS MARÍTIMO",
+      "jogo": "SPORTING CP vs CS MARITIMO",
       "allowSale": true,
       "soldOut": false,
       "public": true,
