@@ -3,6 +3,7 @@
 import json
 import os
 import sys
+import traceback
 from datetime import datetime, timedelta, timezone
 
 import requests
@@ -14,11 +15,25 @@ TELEGRAM_CHAT_ID = os.environ["TELEGRAM_CHAT_ID"]
 JANELA_DIAS = 30
 DIAS_PT = ["segunda", "terça", "quarta", "quinta", "sexta", "sábado", "domingo"]
 
+# Alguns sites bloqueiam o User-Agent predefinido do python-requests (403)
+HTTP_HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36",
+    "Accept": "application/json, text/plain, */*",
+    "Accept-Language": "pt-PT,pt;q=0.9,en;q=0.8",
+    "Referer": "https://tickets.sporting.pt/",
+}
+
 
 def fetch_open_games():
-    r = requests.get(API_URL, timeout=30)
-    r.raise_for_status()
-    return r.json()["data"]["openGames"]
+    last_err = None
+    for tentativa in range(3):
+        try:
+            r = requests.get(API_URL, headers=HTTP_HEADERS, timeout=30)
+            r.raise_for_status()
+            return r.json()["data"]["openGames"]
+        except Exception as e:  # noqa: BLE001
+            last_err = e
+    raise last_err
 
 
 def football_next_30_days(games):
@@ -137,20 +152,36 @@ def send_telegram(text):
         r.raise_for_status()
 
 
-def main():
-    games = football_next_30_days(fetch_open_games())
-    current = [extract(g) for g in games]
-    baseline = load_baseline()
-    novos, alteracoes = diff(current, baseline)
-    msg = build_message(novos, alteracoes, current)
-    send_telegram(msg)
+def guardar_baseline(current):
     novo_baseline = {
         "baseline_registrado_em": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "jogos": current,
     }
     with open(BASELINE_PATH, "w") as f:
         json.dump(novo_baseline, f, ensure_ascii=False, indent=2)
+
+
+def main():
+    try:
+        games = football_next_30_days(fetch_open_games())
+    except Exception as e:  # noqa: BLE001
+        # Verificação falhou: avisa sem alarmar e sai a limpo
+        print("Falha ao consultar a bilheteira:", e)
+        traceback.print_exc()
+        try:
+            send_telegram("⚠️ Monitor Sporting CP: hoje não consegui consultar a bilheteira (%s). Tenta em https://tickets.sporting.pt/" % type(e).__name__)
+        except Exception as e2:  # noqa: BLE001
+            print("Falha também ao enviar aviso para o Telegram:", e2)
+        return 0
+    current = [extract(g) for g in games]
+    baseline = load_baseline()
+    novos, alteracoes = diff(current, baseline)
+    msg = build_message(novos, alteracoes, current)
+    # Guarda sempre o baseline, mesmo que o alerta falhe
+    guardar_baseline(current)
+    send_telegram(msg)
     print("OK: %d jogos, %d novos, %d alterações." % (len(current), len(novos), len(alteracoes)))
+    return 0
 
 
 if __name__ == "__main__":
