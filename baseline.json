@@ -1,5 +1,5 @@
 {
-  "baseline_registrado_em": "2026-10-20T11:48:34+00:00",
+  "baseline_registrado_em": "2026-10-21T15:53:56+00:00",
   "jogos": [
     {
       "id": 21951,
@@ -11,6 +11,19 @@
       "allowSale": true,
       "soldOut": false,
       "public": true,
+      "member": true,
+      "isDateConfirmed": true
+    },
+    {
+      "id": 21983,
+      "token": "VSXCVP8MME7Z",
+      "data": "2026-10-24T15:30:00",
+      "modalidade": "Futebol",
+      "competicao": "Liga BPI",
+      "jogo": "SL BENFICA vs SPORTING CP",
+      "allowSale": true,
+      "soldOut": false,
+      "public": false,
       "member": true,
       "isDateConfirmed": true
     },
@@ -49,7 +62,7 @@
       "jogo": "SPORTING CP vs MOREIRENSE FC",
       "allowSale": true,
       "soldOut": false,
-      "public": false,
+      "public": true,
       "member": true,
       "isDateConfirmed": true
     }
