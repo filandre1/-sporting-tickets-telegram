@@ -1,19 +1,6 @@
 {
-  "baseline_registrado_em": "2026-10-21T15:53:56+00:00",
+  "baseline_registrado_em": "2026-10-22T15:50:40+00:00",
   "jogos": [
-    {
-      "id": 21951,
-      "token": "MMPYKY9ZQTHL",
-      "data": "2026-10-21T20:00:00",
-      "modalidade": "Futebol",
-      "competicao": "Liga dos Campeões",
-      "jogo": "SPORTING CP vs LASK",
-      "allowSale": true,
-      "soldOut": false,
-      "public": true,
-      "member": true,
-      "isDateConfirmed": true
-    },
     {
       "id": 21983,
       "token": "VSXCVP8MME7Z",
@@ -50,6 +37,19 @@
       "allowSale": true,
       "soldOut": false,
       "public": true,
+      "member": true,
+      "isDateConfirmed": true
+    },
+    {
+      "id": 21981,
+      "token": "0EAVVK6LG3C0",
+      "data": "2026-11-03T17:45:00",
+      "modalidade": "Futebol",
+      "competicao": "Liga dos Campeões",
+      "jogo": "FK SHAKHTAR DONETSK vs SPORTING CP",
+      "allowSale": true,
+      "soldOut": false,
+      "public": false,
       "member": true,
       "isDateConfirmed": true
     },
