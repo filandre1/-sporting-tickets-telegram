@@ -171,6 +171,20 @@ const server = http.createServer(async (req, res) => {
       catch { return cache.at ? json(res,200,{ games:cache.games,fetchedAt:new Date(cache.at).toISOString(),stale:true }) :
         json(res,503,{ error:'Não foi possível contactar a bilheteira neste momento.' }); }
     }
+    if (req.method === 'GET' && route === '/api/health') {
+      const secretsReady = Boolean(process.env.ACCESS_CODE?.length >= 8 && process.env.APP_SECRET?.length >= 32);
+      let storageReady = false;
+      try {
+        await fs.mkdir(DATA, { recursive: true, mode: 0o700 });
+        await fs.access(DATA, fs.constants.R_OK | fs.constants.W_OK);
+        storageReady = true;
+      } catch {
+        // Não dar como saudável um processo sem acesso ao disco persistente.
+      }
+      return json(res, secretsReady && storageReady ? 200 : 503, {
+        ok: secretsReady && storageReady
+      });
+    }
     if (req.method === 'GET' && route === '/api/status') {
       return json(res,200,{ configured:Boolean(await settings()),
         setupReady:Boolean(process.env.ACCESS_CODE?.length >= 8 && process.env.APP_SECRET?.length >= 32) });
