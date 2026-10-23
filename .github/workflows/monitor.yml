@@ -1,25 +1,32 @@
 name: Bilheteira Sporting CP
 on:
   schedule:
-    # 11:05 UTC = 11h05 em Lisboa (horário de inverno); em horário de verão são 12h05
-    - cron: "5 11 * * *"
+    # Verificações de 30 em 30 minutos, sujeitas a atrasos do GitHub Actions.
+    - cron: "*/30 * * * *"
   workflow_dispatch:
 
 permissions:
   contents: write
+
+concurrency:
+  group: bilheteira-sporting-monitor
+  cancel-in-progress: false
 
 jobs:
   monitor:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
 
       - run: pip install requests
+
+      - name: Validar sintaxe Python
+        run: python -m py_compile monitor.py
 
       - name: Verificar bilheteira e enviar alerta
         env:
