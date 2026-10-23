@@ -4,7 +4,7 @@ Monitor de bilhetes de futebol do Sporting CP (https://tickets.sporting.pt).
 
 ## O que faz
 
-- Verifica a API `allopengames` de **30 em 30 minutos** (GitHub Actions, cron em UTC; a execução pode atrasar).
+- Verifica a API `allopengames` **todos os dias às 10:00, 11:00 e 12:00**, hora de Portugal continental (`Europe/Lisbon`, com mudança automática da hora de verão). O GitHub Actions pode iniciar as verificações com atraso.
 - Filtra os jogos de futebol dos próximos 30 dias e compara-os com `baseline.json`.
 - Envia alertas ao Telegram se surgirem **novos jogos** ou **alterações** (`soldOut`, `public`, `allowSale`, data, adversário, etc.).
 - Envia **um resumo diário**, na primeira verificação após as 11:00 UTC (11:00 de inverno / 12:00 de verão em Lisboa).
