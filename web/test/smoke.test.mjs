@@ -32,6 +32,10 @@ test('HTTP, autenticação e armazenamento cifrado', async () => {
       catch { await new Promise(resolve => setTimeout(resolve, 50)); }
     }
     assert.ok(ready, 'Servidor arrancou');
+    const health = await fetch(base + '/api/health');
+    assert.equal(health.status, 200, 'Health check responde com HTTP 200');
+    assert.deepEqual(await health.json(), { ok: true });
+
     const root = await fetch(base);
     assert.equal(root.status, 200);
     assert.match(await root.text(), /ALERTA/);
