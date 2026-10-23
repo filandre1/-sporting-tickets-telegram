@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#064a32">
+  <meta name="description" content="Bilhetes do Sporting CP, modalidade a modalidade, com alertas Telegram automáticos e gratuitos.">
+  <title>Alerta Bilhetes · Sporting CP</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./app.js" type="module"></script>
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap">
+      <div class="brand"><span class="monogram" aria-hidden="true">SCP</span><span>SPORTING <strong>CP</strong></span></div>
+      <p class="eyebrow">O TEU SPORTING, SEM PERDER UM BILHETE</p>
+      <h1>ALERTA <span>BILHETES</span></h1>
+      <p class="intro">Consulta os jogos da bilheteira oficial e acompanha as novidades diretamente no Telegram. Atualização periódica, sem custos de alojamento.</p>
+    </div>
+  </header>
+  <main class="wrap main-grid">
+    <section class="tickets" aria-labelledby="tickets-heading">
+      <div class="section-title">
+        <div><p class="eyebrow green">BILHETEIRA OFICIAL</p><h2 id="tickets-heading">Jogos disponíveis</h2></div>
+        <button id="refresh" class="refresh" type="button" title="Voltar a ler os dados publicados">↻ Recarregar</button>
+      </div>
+      <div class="filters" role="group" aria-label="Filtrar modalidades">
+        <button type="button" class="filter active" data-filter="all" aria-pressed="true">Todos</button>
+        <button type="button" class="filter" data-filter="football" aria-pressed="false">Futebol</button>
+        <button type="button" class="filter" data-filter="other" aria-pressed="false">Modalidades</button>
+      </div>
+      <p id="message" class="notice" role="status">A carregar os últimos jogos publicados…</p>
+      <div id="games" class="games" aria-live="polite"></div>
+      <p class="footnote" id="count"></p>
+    </section>
+    <aside class="panel" aria-labelledby="telegram-heading">
+      <div class="panel-head">
+        <span class="telegram-icon" aria-hidden="true">➤</span>
+        <div><p class="eyebrow">ALERTAS AUTOMÁTICOS</p><h2 id="telegram-heading">Telegram</h2></div>
+      </div>
+      <p class="status ok">Os alertas são executados pelo GitHub Actions, sem servidor pago.</p>
+      <p class="panel-text">Mantemos o monitor Python existente: verifica a bilheteira às 10h, 11h e 12h (Lisboa) e envia mensagens quando aparecem jogos novos ou há alterações. Mantém também o resumo diário.</p>
+      <div class="info-card">
+        <strong>Configuração privada</strong>
+        <p>O site é público e estático: para proteger o token do bot, as credenciais ficam nos <strong>Secrets</strong> do GitHub, nunca numa página acessível a todos.</p>
+        <p>Secrets necessários: <code>TELEGRAM_BOT_TOKEN</code> e <code>TELEGRAM_CHAT_ID</code>.</p>
+      </div>
+      <div class="panel-links">
+        <a class="primary-link" href="https://github.com/filandre1/-sporting-tickets-telegram/actions/workflows/monitor.yml" target="_blank" rel="noopener noreferrer">Ver execuções e iniciar verificação ↗</a>
+        <a class="secondary-link" href="https://github.com/filandre1/-sporting-tickets-telegram/settings/secrets/actions" target="_blank" rel="noopener noreferrer">Gerir os segredos Telegram ↗</a>
+      </div>
+      <details class="howto">
+        <summary>Como ativar os alertas?</summary>
+        <ol>
+          <li>Cria um bot com <strong>@BotFather</strong> no Telegram.</li>
+          <li>Abre o bot e envia <strong>/start</strong>.</li>
+          <li>Obtém o teu ID de chat e guarda o token e o ID nos Secrets do repositório.</li>
+          <li>Em <strong>Actions → Bilheteira Sporting CP</strong>, clica em <strong>Run workflow</strong> para testar.</li>
+        </ol>
+      </details>
+      <p class="security">🔒 Não introduzas nem publiques tokens do Telegram neste site ou nos ficheiros públicos.</p>
+    </aside>
+  </main>
+  <footer class="wrap footer">Esta página mostra a última atualização publicada pelo GitHub Actions. Não consulta a bilheteira em tempo real. Projeto independente, não oficial do Sporting CP. · <a href="https://tickets.sporting.pt/" target="_blank" rel="noopener noreferrer">Bilheteira oficial ↗</a></footer>
+</body>
+</html>
