@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#064a32">
+  <meta name="description" content="Acompanha os bilhetes disponíveis para o Sporting CP e recebe novidades no Telegram.">
+  <title>Alerta Bilhetes · Sporting CP</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" type="module"></script>
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap">
+      <div class="brand"><span class="monogram" aria-hidden="true">SCP</span><span>SPORTING <strong>CP</strong></span></div>
+      <p class="eyebrow">O TEU SPORTING, SEM PERDER UM BILHETE</p>
+      <h1>ALERTA <span>BILHETES</span></h1>
+      <p class="intro">Lê os jogos listados em tickets.sporting.pt e manda para o teu Telegram só o que for novo, todos os dias por volta das 12:00 em Lisboa.</p>
+    </div>
+  </header>
+  <main class="wrap main-grid">
+    <section class="tickets" aria-labelledby="tickets-heading">
+      <div class="section-title"><div><p class="eyebrow green">BILHETEIRA OFICIAL</p><h2 id="tickets-heading">Jogos disponíveis</h2></div><button id="refresh" class="refresh" type="button">↻ Atualizar</button></div>
+      <div class="filters" role="group" aria-label="Filtrar modalidades">
+        <button type="button" class="filter active" data-filter="all" aria-pressed="true">Todos</button>
+        <button type="button" class="filter" data-filter="football" aria-pressed="false">Futebol</button>
+        <button type="button" class="filter" data-filter="other" aria-pressed="false">Modalidades</button>
+      </div>
+      <div id="message" class="notice" role="status">A carregar jogos…</div>
+      <div id="games" class="games" aria-live="polite"></div>
+      <p class="footnote" id="count"></p>
+    </section>
+    <aside class="panel" aria-labelledby="telegram-heading">
+      <div class="panel-head"><span class="telegram-icon" aria-hidden="true">➤</span><div><p class="eyebrow">ALERTAS AUTOMÁTICOS</p><h2 id="telegram-heading">Telegram</h2></div></div>
+      <p id="status" class="status" role="status">A verificar ligação…</p>
+      <form id="telegram-form" autocomplete="off">
+        <label for="token">Token do bot</label><input id="token" name="token" type="password" placeholder="123456789:AAH…" required spellcheck="false">
+        <label for="chat-id">ID do chat</label><input id="chat-id" name="chatId" inputmode="numeric" placeholder="123456789" required>
+        <label for="access">Código de acesso</label><input id="access" name="accessCode" type="password" placeholder="Mínimo 8 caracteres" required minlength="8">
+        <div class="switch-row"><div><strong>Só futebol</strong><small>O Telegram ignora modalidades.</small></div><label class="switch"><input id="football-only" type="checkbox" checked><span></span></label></div>
+        <div class="switch-row"><div><strong>Avisar mesmo sem novidades</strong><small>Uma linha curta, só na verificação das 12:00.</small></div><label class="switch"><input id="quiet-alert" type="checkbox"><span></span></label></div>
+        <div class="actions"><button class="primary" id="save" type="submit">Guardar alerta</button><button class="secondary" id="check" type="button">Verificar agora</button></div>
+        <p id="form-feedback" class="feedback" role="status"></p>
+      </form>
+      <details class="howto"><summary>Como criar o bot</summary><ol><li>No Telegram, abre <strong>@BotFather</strong> e envia <code>/newbot</code>.</li><li>Copia o token e cola-o aqui.</li><li>Abre o teu bot e carrega em <strong>Iniciar</strong>.</li><li>Abre <strong>@userinfobot</strong> e copia o teu ID.</li><li>Guarda. A primeira mensagem é a lista atual; depois só chegam novidades.</li></ol></details>
+      <p class="security">🔒 O token é enviado apenas ao teu servidor e fica guardado cifrado. Nunca coloques as chaves no código público.</p>
+    </aside>
+  </main>
+  <footer class="wrap footer">A verificação automática corre todos os dias dentro da hora do meio-dia em Lisboa, enquanto o servidor estiver ativo. Ferramenta independente, não é o site oficial do Sporting. · <a href="https://tickets.sporting.pt/" target="_blank" rel="noopener noreferrer">Bilheteira oficial ↗</a></footer>
+</body>
+</html>
