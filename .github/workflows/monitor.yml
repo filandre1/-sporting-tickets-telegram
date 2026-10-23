@@ -1,8 +1,9 @@
 name: Bilheteira Sporting CP
 on:
   schedule:
-    # Verificações de 30 em 30 minutos, sujeitas a atrasos do GitHub Actions.
-    - cron: "*/30 * * * *"
+    # Verificações diárias às 10:00, 11:00 e 12:00 (hora de Lisboa).
+    - cron: "0 10,11,12 * * *"
+      timezone: "Europe/Lisbon"
   workflow_dispatch:
 
 permissions:
