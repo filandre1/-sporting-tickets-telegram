@@ -25,6 +25,10 @@ npm start
 
 Abre `http://localhost:3000`. Guarda o bot/token e ID de chat no formulário e clica **Verificar agora** para receber a primeira mensagem.
 
+## Deploy com HTTPS e disco persistente
+
+Para publicar no Render, consulta o [guia de deploy](DEPLOY-RENDER.md). O ficheiro [`render.yaml`](../render.yaml), na raiz do repositório, configura automaticamente o Web Service de Node.js em Frankfurt, o HTTPS e o SSD persistente. É necessário aprovar a criação de um serviço pago na conta Render.
+
 ## Publicação
 
 Publica a pasta `web/` num serviço Node com processo **sempre ligado**, **HTTPS** e **disco persistente**. Comando de arranque: `npm start`; variáveis `ACCESS_CODE`, `APP_SECRET`, `PORT` e, se necessário, `DATA_DIR`. Os ficheiros de configuração são criados em `web/data/` e não devem ser enviados para o GitHub. Mantém o mesmo `APP_SECRET` após reiniciar o serviço.
