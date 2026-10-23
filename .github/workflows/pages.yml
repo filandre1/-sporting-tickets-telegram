@@ -1,0 +1,63 @@
+name: Publicar Alerta Bilhetes (GitHub Pages)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "pages/**"
+      - "baseline.json"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+  schedule:
+    # Atualizações adicionais ao longo do dia, hora de Lisboa.
+    # A verificação Telegram existente é independente deste workflow.
+    - cron: "35 10,11,12 * * *"
+      timezone: "Europe/Lisbon"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: sporting-github-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Obter o repositório
+        uses: actions/checkout@v4
+
+      - name: Preparar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Testar exportação estática
+        run: python -m unittest discover -s pages -p 'test_*.py' -v
+
+      - name: Recolher jogos e gerar site
+        run: python pages/build_site.py
+
+      - name: Preparar GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Enviar artefacto estático
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publicar no GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
