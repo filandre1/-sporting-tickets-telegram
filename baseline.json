@@ -1,5 +1,5 @@
 {
-  "baseline_registrado_em": "2026-10-23T17:10:23+00:00",
+  "baseline_registrado_em": "2026-10-23T21:31:47+00:00",
   "ultimo_resumo_diario_utc": "2026-10-23",
   "jogos": [
     {
@@ -10,7 +10,7 @@
       "competicao": "Liga BPI",
       "jogo": "SL BENFICA vs SPORTING CP",
       "allowSale": true,
-      "soldOut": false,
+      "soldOut": true,
       "public": false,
       "member": true,
       "isDateConfirmed": true
