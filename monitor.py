@@ -115,7 +115,7 @@ def fmt_jogo(j):
     )
 
 
-def build_message(novos, alteracoes, current):
+def build_message(novos, alteracoes, current, incluir_resumo=True):
     linhas = []
     if novos:
         linhas.append("🚨 Novo jogo à venda:")
@@ -128,15 +128,16 @@ def build_message(novos, alteracoes, current):
         for j, campos in alteracoes:
             linhas.append(fmt_jogo(j))
             linhas.append("   alterado: " + ", ".join(campos))
-    if not novos and not alteracoes:
-        linhas.append("ℹ️ Sem novidades na bilheteira de futebol do Sporting CP.")
-    linhas.append("")
-    linhas.append("Jogos de futebol em aberto nos próximos %d dias: %d" % (JANELA_DIAS, len(current)))
-    for j in current:
-        est = "esgotado" if j["soldOut"] else ("sócios+adeptos" if j["public"] else "sócios")
-        linhas.append("• %s (%s, %s) — %s" % (j["jogo"], j["competicao"], j["data"][:10], est))
-    linhas.append("")
-    linhas.append("🛒 https://tickets.sporting.pt/")
+    if incluir_resumo:
+        if not novos and not alteracoes:
+            linhas.append("ℹ️ Sem novidades na bilheteira de futebol do Sporting CP.")
+        linhas.append("")
+        linhas.append("Jogos de futebol em aberto nos próximos %d dias: %d" % (JANELA_DIAS, len(current)))
+        for j in current:
+            est = "esgotado" if j["soldOut"] else ("sócios+adeptos" if j["public"] else "sócios")
+            linhas.append("• %s (%s, %s) — %s" % (j["jogo"], j["competicao"], j["data"][:10], est))
+        linhas.append("")
+        linhas.append("🛒 https://tickets.sporting.pt/")
     return "\n".join(linhas)
 
 
@@ -152,9 +153,10 @@ def send_telegram(text):
         r.raise_for_status()
 
 
-def guardar_baseline(current):
+def guardar_baseline(current, ultimo_resumo_diario_utc):
     novo_baseline = {
         "baseline_registrado_em": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "ultimo_resumo_diario_utc": ultimo_resumo_diario_utc,
         "jogos": current,
     }
     with open(BASELINE_PATH, "w") as f:
@@ -165,22 +167,42 @@ def main():
     try:
         games = football_next_30_days(fetch_open_games())
     except Exception as e:  # noqa: BLE001
-        # Verificação falhou: avisa sem alarmar e sai a limpo
+        # Um erro na consulta deve marcar a execução como falhada no GitHub Actions.
         print("Falha ao consultar a bilheteira:", e)
         traceback.print_exc()
         try:
             send_telegram("⚠️ Monitor Sporting CP: hoje não consegui consultar a bilheteira (%s). Tenta em https://tickets.sporting.pt/" % type(e).__name__)
         except Exception as e2:  # noqa: BLE001
             print("Falha também ao enviar aviso para o Telegram:", e2)
-        return 0
+        return 1
+
     current = [extract(g) for g in games]
     baseline = load_baseline()
     novos, alteracoes = diff(current, baseline)
-    msg = build_message(novos, alteracoes, current)
-    # Guarda sempre o baseline, mesmo que o alerta falhe
-    guardar_baseline(current)
-    send_telegram(msg)
-    print("OK: %d jogos, %d novos, %d alterações." % (len(current), len(novos), len(alteracoes)))
+
+    agora = datetime.now(timezone.utc)
+    hoje_utc = agora.date().isoformat()
+    ultimo_resumo = baseline.get("ultimo_resumo_diario_utc")
+    if ultimo_resumo is None:
+        # Migrar do formato anterior, que já enviava um resumo em cada execução.
+        ultimo_resumo = (baseline.get("baseline_registrado_em") or "")[:10] or None
+    enviar_resumo = agora.hour >= 11 and ultimo_resumo != hoje_utc
+
+    # Só avisar quando há novidades ou quando chega a altura do resumo diário.
+    # Se o Telegram falhar, não avançar o baseline: permite repetir o alerta.
+    if novos or alteracoes or enviar_resumo:
+        send_telegram(build_message(novos, alteracoes, current, incluir_resumo=enviar_resumo))
+        if enviar_resumo:
+            ultimo_resumo = hoje_utc
+    else:
+        print("Sem novidades; nenhuma mensagem enviada ao Telegram.")
+
+    # Evitar commits de 30 em 30 minutos quando nada mudou.
+    if (current != baseline.get("jogos", []) or enviar_resumo
+            or "ultimo_resumo_diario_utc" not in baseline):
+        guardar_baseline(current, ultimo_resumo)
+    print("OK: %d jogos, %d novos, %d alterações; resumo diário: %s." % (
+        len(current), len(novos), len(alteracoes), "sim" if enviar_resumo else "não"))
     return 0
 
 
