@@ -227,9 +227,11 @@ def main():
     novos, alteracoes = diff(current, baseline)
 
     hoje_lisboa = local.date().isoformat()
-    ultimo_resumo = baseline.get("ultimo_resumo_diario_lisboa")
-    if ultimo_resumo is None:
-        # Migrar os valores antigos preservando o resumo já enviado no mesmo dia.
+    if "ultimo_resumo_diario_lisboa" in baseline:
+        # None significa explicitamente que ainda não houve resumo.
+        ultimo_resumo = baseline["ultimo_resumo_diario_lisboa"]
+    else:
+        # Migrar valores antigos apenas quando o novo campo está ausente.
         ultimo_resumo = baseline.get("ultimo_resumo_diario_utc")
         if ultimo_resumo is None:
             ultimo_resumo = (baseline.get("baseline_registrado_em") or "")[:10] or None
