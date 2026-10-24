@@ -1,8 +1,9 @@
 name: Bilheteira Sporting CP
 on:
   schedule:
-    # Verificações diárias às 10:00, 11:00 e 12:00 (hora de Lisboa).
-    - cron: "0 10,11,12 * * *"
+    # Verificações às 10:17, 10:47, 11:17, 11:47, 12:17 e 12:47 (Lisboa).
+    # Evita o minuto :00, sujeito a congestionamento no GitHub Actions.
+    - cron: "17,47 10-12 * * *"
       timezone: "Europe/Lisbon"
   workflow_dispatch:
 
@@ -28,6 +29,22 @@ jobs:
 
       - name: Validar sintaxe Python
         run: python -m py_compile monitor.py
+
+      - name: Registar início e atraso da verificação
+        env:
+          SCHEDULE_EXPR: ${{ github.event.schedule }}
+        run: |
+          echo "Evento: ${{ github.event_name }}"
+          echo "Horário previsto: ${SCHEDULE_EXPR:-execução manual}"
+          echo "Início real UTC: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          echo "Início real Lisboa: $(TZ=Europe/Lisbon date +%Y-%m-%dT%H:%M:%S%z)"
+          {
+            echo "## Bilheteira Sporting CP — verificação"
+            echo ""
+            echo "- **Evento:** ${{ github.event_name }}"
+            echo "- **Horário cron:** ${SCHEDULE_EXPR:-execução manual}"
+            echo "- **Início real (Lisboa):** $(TZ=Europe/Lisbon date +'%Y-%m-%d %H:%M:%S %Z')"
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Verificar bilheteira e enviar alerta
         env:
