@@ -5,6 +5,7 @@ import os
 import sys
 import traceback
 from datetime import datetime, timedelta, timezone
+from zoneinfo import ZoneInfo
 
 import requests
 
@@ -13,6 +14,7 @@ BASELINE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "baseli
 TELEGRAM_TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
 TELEGRAM_CHAT_ID = os.environ["TELEGRAM_CHAT_ID"]
 JANELA_DIAS = 30
+LISBON_TZ = ZoneInfo("Europe/Lisbon")
 DIAS_PT = ["segunda", "terça", "quarta", "quinta", "sexta", "sábado", "domingo"]
 
 # Alguns sites bloqueiam o User-Agent predefinido do python-requests (403)
@@ -153,25 +155,69 @@ def send_telegram(text):
         r.raise_for_status()
 
 
-def guardar_baseline(current, ultimo_resumo_diario_utc):
+def guardar_baseline(current, ultimo_resumo_diario_lisboa):
+    """Guarda o estado após confirmar o envio, permitindo deduplicar verificações."""
     novo_baseline = {
         "baseline_registrado_em": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        "ultimo_resumo_diario_utc": ultimo_resumo_diario_utc,
+        # Chave antiga mantida para compatibilidade com versões anteriores.
+        "ultimo_resumo_diario_utc": ultimo_resumo_diario_lisboa,
+        "ultimo_resumo_diario_lisboa": ultimo_resumo_diario_lisboa,
         "jogos": current,
     }
     with open(BASELINE_PATH, "w") as f:
         json.dump(novo_baseline, f, ensure_ascii=False, indent=2)
 
 
+def escrever_resumo_execucao(estado, inicio, jogos=None, novos=None,
+                            alteracoes=None, telegram=None, resumo=None):
+    """Resumo por execução em GitHub Actions, sem expor token nem chat ID."""
+    ficheiro = os.environ.get("GITHUB_STEP_SUMMARY")
+    if not ficheiro:
+        return
+    registos = [
+        "",
+        "### Resultado da verificação",
+        f"- **Estado:** {estado}",
+        f"- **Executado (Lisboa):** {inicio.astimezone(LISBON_TZ).strftime('%Y-%m-%d %H:%M:%S %Z')}",
+    ]
+    for etiqueta, valor in (
+        ("Jogos de futebol", jogos),
+        ("Novos", novos),
+        ("Alterações", alteracoes),
+        ("Telegram", telegram),
+        ("Resumo diário", resumo),
+    ):
+        if valor is not None:
+            registos.append(f"- **{etiqueta}:** {valor}")
+    registos.append("")
+    try:
+        with open(ficheiro, "a", encoding="utf-8") as f:
+            f.write("\n".join(registos))
+    except OSError as e:
+        # Problemas ao gerar o relatório não podem impedir a consulta/alertas.
+        print("Aviso: não foi possível gravar o resumo da execução:", type(e).__name__)
+
+
 def main():
+    inicio = datetime.now(timezone.utc)
+    local = inicio.astimezone(LISBON_TZ)
+    print("Início da verificação: Lisboa=%s; UTC=%s; evento=%s; run=%s." % (
+        local.isoformat(timespec="seconds"),
+        inicio.isoformat(timespec="seconds"),
+        os.environ.get("GITHUB_EVENT_NAME", "local"),
+        os.environ.get("GITHUB_RUN_ID", "manual"),
+    ), flush=True)
+
     try:
         games = football_next_30_days(fetch_open_games())
     except Exception as e:  # noqa: BLE001
         # Um erro na consulta deve marcar a execução como falhada no GitHub Actions.
         print("Falha ao consultar a bilheteira:", e)
         traceback.print_exc()
+        escrever_resumo_execucao("FALHOU: consulta à bilheteira", inicio)
         try:
             send_telegram("⚠️ Monitor Sporting CP: hoje não consegui consultar a bilheteira (%s). Tenta em https://tickets.sporting.pt/" % type(e).__name__)
+            print("Telegram: aviso de falha da API enviado.")
         except Exception as e2:  # noqa: BLE001
             print("Falha também ao enviar aviso para o Telegram:", e2)
         return 1
@@ -180,27 +226,63 @@ def main():
     baseline = load_baseline()
     novos, alteracoes = diff(current, baseline)
 
-    agora = datetime.now(timezone.utc)
-    hoje_utc = agora.date().isoformat()
-    ultimo_resumo = baseline.get("ultimo_resumo_diario_utc")
+    hoje_lisboa = local.date().isoformat()
+    ultimo_resumo = baseline.get("ultimo_resumo_diario_lisboa")
     if ultimo_resumo is None:
-        # Migrar do formato anterior, que já enviava um resumo em cada execução.
-        ultimo_resumo = (baseline.get("baseline_registrado_em") or "")[:10] or None
-    enviar_resumo = agora.hour >= 11 and ultimo_resumo != hoje_utc
+        # Migrar os valores antigos preservando o resumo já enviado no mesmo dia.
+        ultimo_resumo = baseline.get("ultimo_resumo_diario_utc")
+        if ultimo_resumo is None:
+            ultimo_resumo = (baseline.get("baseline_registrado_em") or "")[:10] or None
 
-    # Só avisar quando há novidades ou quando chega a altura do resumo diário.
-    # Se o Telegram falhar, não avançar o baseline: permite repetir o alerta.
-    if novos or alteracoes or enviar_resumo:
-        send_telegram(build_message(novos, alteracoes, current, incluir_resumo=enviar_resumo))
+    # O resumo é enviado a partir das 12:00 de Lisboa, incluindo hora de inverno.
+    enviar_resumo = local.hour >= 12 and ultimo_resumo != hoje_lisboa
+    precisa_alertar = bool(novos or alteracoes or enviar_resumo)
+    print("Comparação: %d jogos; %d novos; %d alterações; último resumo=%s; "
+          "resumo de hoje=%s." % (
+              len(current), len(novos), len(alteracoes),
+              ultimo_resumo or "nenhum", "sim" if enviar_resumo else "não"
+          ), flush=True)
+
+    # O baseline apenas avança após o Telegram aceitar a mensagem.
+    # O grupo de concurrency no workflow serializa execuções sobre o mesmo baseline.
+    telegram = "Não enviado: sem novidades"
+    if precisa_alertar:
+        try:
+            send_telegram(build_message(novos, alteracoes, current, incluir_resumo=enviar_resumo))
+        except Exception as e:  # noqa: BLE001
+            print("Falha no envio do Telegram; baseline preservado:", type(e).__name__, e)
+            escrever_resumo_execucao("FALHOU: Telegram", inicio,
+                                    len(current), len(novos), len(alteracoes),
+                                    "Falhou; baseline não atualizado",
+                                    "Planeado" if enviar_resumo else "Não")
+            return 1
+        telegram = "Mensagem aceite pela API do Telegram"
+        print("Telegram: mensagem aceite; %d novos, %d alterações, resumo=%s." % (
+            len(novos), len(alteracoes), "sim" if enviar_resumo else "não"
+        ), flush=True)
         if enviar_resumo:
-            ultimo_resumo = hoje_utc
+            ultimo_resumo = hoje_lisboa
     else:
-        print("Sem novidades; nenhuma mensagem enviada ao Telegram.")
+        print("Telegram: não enviado; nenhuma novidade e resumo diário já emitido ou ainda não devido.")
 
-    # Evitar commits de 30 em 30 minutos quando nada mudou.
-    if (current != baseline.get("jogos", []) or enviar_resumo
-            or "ultimo_resumo_diario_utc" not in baseline):
-        guardar_baseline(current, ultimo_resumo)
+    # Evitar commits redundantes das seis verificações do dia.
+    atualizar = (current != baseline.get("jogos", []) or enviar_resumo or
+                 "ultimo_resumo_diario_lisboa" not in baseline)
+    if atualizar:
+        try:
+            guardar_baseline(current, ultimo_resumo)
+        except OSError as e:
+            print("Falha ao guardar baseline:", type(e).__name__, e)
+            escrever_resumo_execucao("FALHOU: gravação do baseline", inicio,
+                                    len(current), len(novos), len(alteracoes), telegram)
+            return 1
+        print("Baseline: atualizado para persistência no GitHub.")
+    else:
+        print("Baseline: inalterado (sem commit necessário).")
+
+    escrever_resumo_execucao("OK", inicio, len(current), len(novos),
+                            len(alteracoes), telegram,
+                            "Enviado" if enviar_resumo else "Não enviado")
     print("OK: %d jogos, %d novos, %d alterações; resumo diário: %s." % (
         len(current), len(novos), len(alteracoes), "sim" if enviar_resumo else "não"))
     return 0
