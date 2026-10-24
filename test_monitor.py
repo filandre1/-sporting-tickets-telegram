@@ -52,15 +52,11 @@ class MonitorTests(unittest.TestCase):
             patch.object(monitor, "send_telegram"),
             patch.dict(os.environ, {"GITHUB_STEP_SUMMARY": str(self.step_summary)}),
         ]
-        self.fetch = None
-        self.telegram = None
+        results = [p.start() for p in self.patches]
         for p in self.patches:
-            m = p.start()
             self.addCleanup(p.stop)
-            if p.attribute == "fetch_open_games":
-                self.fetch = m
-            if p.attribute == "send_telegram":
-                self.telegram = m
+        self.fetch = results[1]
+        self.telegram = results[2]
 
     def run_at(self, time_str, day="2026-10-24"):
         h, m = map(int, time_str.split(":"))
