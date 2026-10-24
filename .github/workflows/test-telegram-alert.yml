@@ -1,0 +1,85 @@
+name: Testar alerta Telegram
+
+on:
+  # Executa uma vez ao adicionar esta rotina, sem esperar pelo cron.
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/test-telegram-alert.yml"
+  # Mantém a opção de repetir voluntariamente a partir do GitHub Actions.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sporting-telegram-manual-test
+  cancel-in-progress: false
+
+jobs:
+  send-test:
+    name: Enviar mensagem de diagnóstico
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Testar ligação ao bot Telegram
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          import sys
+          from datetime import datetime
+          from urllib.request import Request, urlopen
+          from zoneinfo import ZoneInfo
+
+          token = os.environ.get("TELEGRAM_BOT_TOKEN", "").strip()
+          chat = os.environ.get("TELEGRAM_CHAT_ID", "").strip()
+          if not token or not chat:
+              print("ERRO: configurar TELEGRAM_BOT_TOKEN e TELEGRAM_CHAT_ID nos GitHub Actions Secrets.")
+              sys.exit(1)
+
+          agora = datetime.now(ZoneInfo("Europe/Lisbon")).strftime("%d/%m/%Y às %H:%M:%S")
+          message = (
+              "🧪 TESTE DE ALERTA — Sporting CP\n\n"
+              "✅ Esta é uma mensagem de diagnóstico do monitor de bilhetes.\n"
+              "Não corresponde a um jogo novo nem a uma alteração na bilheteira.\n\n"
+              f"Data/hora (Lisboa): {agora}\n"
+              "Origem: GitHub Actions · Testar alerta Telegram"
+          )
+          payload = json.dumps({
+              "chat_id": chat,
+              "text": message,
+              "disable_web_page_preview": True,
+          }).encode("utf-8")
+          url = "https://api.telegram.org/bot" + token + "/sendMessage"
+          request = Request(url, data=payload, headers={"Content-Type": "application/json"}, method="POST")
+
+          try:
+              with urlopen(request, timeout=25) as response:
+                  result = json.load(response)
+              if result.get("ok") is not True:
+                  raise ValueError("Resposta sem confirmação de sucesso.")
+              message_id = result.get("result", {}).get("message_id")
+              if not isinstance(message_id, int):
+                  raise ValueError("Telegram não devolveu um identificador de mensagem.")
+          except Exception:
+              # Evitar registos de erros HTTP que possam conter o token secreto no URL.
+              print("ERRO: o Telegram não confirmou o teste. Verifica Secrets, bot e ID do chat.")
+              sys.exit(1)
+
+          print(f"SUCESSO: Telegram confirmou a mensagem de teste (message_id={message_id}).")
+          summary = os.environ.get("GITHUB_STEP_SUMMARY")
+          if summary:
+              with open(summary, "a", encoding="utf-8") as file:
+                  file.write(
+                      "## Teste do Telegram\n\n"
+                      "- **Resultado:** mensagem aceite pela API do Telegram\n"
+                      f"- **Hora local:** {agora}\n"
+                      f"- **ID da mensagem:** {message_id}\n"
+                      "- **Nota:** envio de diagnóstico independente dos alertas e do baseline.\n"
+                  )
+          PY
