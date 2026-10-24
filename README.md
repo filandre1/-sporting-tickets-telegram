@@ -17,7 +17,7 @@ Depois de ativares o GitHub Pages nas definições do repositório, o endereço 
 - `.github/workflows/pages.yml` publica a versão estática no GitHub Pages após alterações e às **10h35, 11h35 e 12h35 (Europe/Lisbon)**, podendo haver atrasos do GitHub Actions.
 - Se a API falhar, a publicação usa os jogos do `baseline.json` anterior (apenas futebol) e assinala explicitamente os dados como desatualizados.
 - A página lê o último JSON publicado. **Não é uma bilheteira em tempo real**; o botão Recarregar apenas lê os dados publicados mais recentes.
-- `monitor.py` e `.github/workflows/monitor.yml` continuam a gerir os **alertas e resumos no Telegram**, às 10h, 11h e 12h (Lisboa), sem alterações neste processo.
+- `monitor.py` e `.github/workflows/monitor.yml` gerem os **alertas e resumos no Telegram**, com verificações **todos os dias às 10h17, 10h47, 11h17, 11h47, 12h17 e 12h47 (Europe/Lisbon)**. O resumo diário é emitido na primeira verificação que ocorra a partir das **12h de Lisboa**. Os horários podem sofrer atrasos ou falhas na plataforma GitHub.
 - `baseline.json` mantém o histórico necessário para identificar novos jogos e alterações.
 
 ## Publicação gratuita: uma única definição inicial
@@ -40,6 +40,15 @@ O monitor existente utiliza dois [GitHub Actions Secrets](https://github.com/fil
 - `TELEGRAM_CHAT_ID`: identificação do destinatário.
 
 Se já recebes alertas, **não precisas de alterar estes Secrets**. Para testar, abre [Actions → Bilheteira Sporting CP](https://github.com/filandre1/-sporting-tickets-telegram/actions/workflows/monitor.yml) e executa **Run workflow**. Uma execução sem novidades fora da janela de resumo não envia mensagem, por definição.
+
+### Deteção de falhas e ausência de duplicações
+
+- Cada execução indica no **Step summary** o horário previsto e a hora real de arranque em Lisboa, além dos jogos verificados, novidades, alterações, envio ao Telegram e estado do resumo diário. Consulta também os logs do passo `Verificar bilheteira e enviar alerta`.
+- O workflow tem um grupo `concurrency` que impede execuções simultâneas sobre o mesmo histórico. O baseline é atualizado depois de o Telegram aceitar o envio; na verificação seguinte, os mesmos jogos/alterações não voltam a originar alerta.
+- Se o Telegram falhar, a execução termina com erro e o baseline é preservado, permitindo repetir a tentativa. **Não é possível garantir exatamente uma entrega**: por exemplo, se a mensagem for aceite e a gravação/commit do baseline falhar depois, pode haver um reenvio.
+- O **resumo diário só é enviado uma vez**, na primeira execução após as 12h de Lisboa (com horário de verão/inverno) e não nas seis verificações.
+- O GitHub pode atrasar ou omitir eventos agendados. Se não surgir qualquer execução no histórico, não é possível concluir que não houve novidades. A execução manual mantém-se disponível.
+- Os testes de redundância, fuso horário e falhas usam `python -m unittest -v test_monitor` e não contactam o Telegram real.
 
 **Importante:** o site não permite editar o Telegram diretamente pela interface porque é estático; esta configuração é feita na área privada do repositório.
 
