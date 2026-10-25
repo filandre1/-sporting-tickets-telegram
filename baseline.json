@@ -1,21 +1,8 @@
 {
-  "baseline_registrado_em": "2026-10-24T12:11:13+00:00",
-  "ultimo_resumo_diario_utc": "2026-10-24",
-  "ultimo_resumo_diario_lisboa": "2026-10-24",
+  "baseline_registrado_em": "2026-10-25T14:25:51+00:00",
+  "ultimo_resumo_diario_utc": "2026-10-25",
+  "ultimo_resumo_diario_lisboa": "2026-10-25",
   "jogos": [
-    {
-      "id": 21983,
-      "token": "VSXCVP8MME7Z",
-      "data": "2026-10-24T15:30:00",
-      "modalidade": "Futebol",
-      "competicao": "Liga BPI",
-      "jogo": "SL BENFICA vs SPORTING CP",
-      "allowSale": true,
-      "soldOut": true,
-      "public": false,
-      "member": true,
-      "isDateConfirmed": true
-    },
     {
       "id": 21947,
       "token": "O5IM286KNBGA",
