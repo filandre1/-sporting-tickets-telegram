@@ -1,21 +1,8 @@
 {
-  "baseline_registrado_em": "2026-10-25T14:25:51+00:00",
-  "ultimo_resumo_diario_utc": "2026-10-25",
-  "ultimo_resumo_diario_lisboa": "2026-10-25",
+  "baseline_registrado_em": "2026-10-26T16:49:23+00:00",
+  "ultimo_resumo_diario_utc": "2026-10-26",
+  "ultimo_resumo_diario_lisboa": "2026-10-26",
   "jogos": [
-    {
-      "id": 21947,
-      "token": "O5IM286KNBGA",
-      "data": "2026-10-25T20:30:00",
-      "modalidade": "Futebol",
-      "competicao": "Liga Portugal Betclic",
-      "jogo": "SPORTING CP vs ACADÉMICO VISEU FC",
-      "allowSale": true,
-      "soldOut": false,
-      "public": true,
-      "member": true,
-      "isDateConfirmed": true
-    },
     {
       "id": 21976,
       "token": "CDDKM4FZK8DE",
@@ -26,6 +13,19 @@
       "allowSale": true,
       "soldOut": false,
       "public": true,
+      "member": true,
+      "isDateConfirmed": true
+    },
+    {
+      "id": 21987,
+      "token": "BF0BB6Q40RRK",
+      "data": "2026-10-30T20:15:00",
+      "modalidade": "Futebol",
+      "competicao": "Liga Portugal Betclic",
+      "jogo": "CASA PIA AC vs SPORTING CP",
+      "allowSale": true,
+      "soldOut": false,
+      "public": false,
       "member": true,
       "isDateConfirmed": true
     },
