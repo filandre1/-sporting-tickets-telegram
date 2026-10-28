@@ -1,21 +1,8 @@
 {
-  "baseline_registrado_em": "2026-10-27T15:54:33+00:00",
-  "ultimo_resumo_diario_utc": "2026-10-27",
-  "ultimo_resumo_diario_lisboa": "2026-10-27",
+  "baseline_registrado_em": "2026-10-28T16:41:47+00:00",
+  "ultimo_resumo_diario_utc": "2026-10-28",
+  "ultimo_resumo_diario_lisboa": "2026-10-28",
   "jogos": [
-    {
-      "id": 21976,
-      "token": "CDDKM4FZK8DE",
-      "data": "2026-10-27T20:15:00",
-      "modalidade": "Futebol",
-      "competicao": "Allianz Cup",
-      "jogo": "SPORTING CP vs CS MARITIMO",
-      "allowSale": true,
-      "soldOut": false,
-      "public": true,
-      "member": true,
-      "isDateConfirmed": true
-    },
     {
       "id": 21987,
       "token": "BF0BB6Q40RRK",
