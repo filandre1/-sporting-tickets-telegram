@@ -1,7 +1,7 @@
 {
-  "baseline_registrado_em": "2026-10-28T16:41:47+00:00",
-  "ultimo_resumo_diario_utc": "2026-10-28",
-  "ultimo_resumo_diario_lisboa": "2026-10-28",
+  "baseline_registrado_em": "2026-10-29T16:57:53+00:00",
+  "ultimo_resumo_diario_utc": "2026-10-29",
+  "ultimo_resumo_diario_lisboa": "2026-10-29",
   "jogos": [
     {
       "id": 21987,
@@ -11,7 +11,7 @@
       "competicao": "Liga Portugal Betclic",
       "jogo": "CASA PIA AC vs SPORTING CP",
       "allowSale": true,
-      "soldOut": false,
+      "soldOut": true,
       "public": false,
       "member": true,
       "isDateConfirmed": true
@@ -45,7 +45,7 @@
     {
       "id": 21954,
       "token": "US2SN4F05PGZ",
-      "data": "2026-11-25T20:30:00",
+      "data": "2026-11-25T20:00:00",
       "modalidade": "Futebol",
       "competicao": "Liga dos Campeões",
       "jogo": "SPORTING CP vs MANCHESTER UNITED FC",
