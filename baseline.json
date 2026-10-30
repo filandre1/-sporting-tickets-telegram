@@ -1,7 +1,7 @@
 {
-  "baseline_registrado_em": "2026-10-29T16:57:53+00:00",
-  "ultimo_resumo_diario_utc": "2026-10-29",
-  "ultimo_resumo_diario_lisboa": "2026-10-29",
+  "baseline_registrado_em": "2026-10-30T16:43:02+00:00",
+  "ultimo_resumo_diario_utc": "2026-10-30",
+  "ultimo_resumo_diario_lisboa": "2026-10-30",
   "jogos": [
     {
       "id": 21987,
@@ -24,7 +24,7 @@
       "competicao": "Liga dos Campeões",
       "jogo": "FK SHAKHTAR DONETSK vs SPORTING CP",
       "allowSale": true,
-      "soldOut": false,
+      "soldOut": true,
       "public": false,
       "member": true,
       "isDateConfirmed": true
