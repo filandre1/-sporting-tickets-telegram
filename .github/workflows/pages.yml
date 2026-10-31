@@ -1,17 +1,17 @@
 name: Publicar Alerta Bilhetes (GitHub Pages)
-
 on:
   push:
     branches: [main]
     paths:
       - "pages/**"
+      - "sporting_data.py"
       - "baseline.json"
+      - "history.json"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
   schedule:
-    # Atualizações adicionais ao longo do dia, hora de Lisboa.
-    # A verificação Telegram existente é independente deste workflow.
-    - cron: "35 10,11,12 * * *"
+    # Publicar novo snapshot da API de hora a hora.
+    - cron: "37 * * * *"
       timezone: "Europe/Lisbon"
 
 permissions:

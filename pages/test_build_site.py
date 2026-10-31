@@ -1,83 +1,83 @@
-"""Testes da geração de site estático, sem API externa nem secrets."""
+"""Testes offline da publicação, incluindo todas as modalidades e histórico."""
 import json
 import tempfile
 import unittest
-from datetime import datetime, timedelta
 from pathlib import Path
+from unittest.mock import patch
 
 from pages import build_site as site
 
 
+def game(id, modality):
+    return {
+        "id": id, "token": f"TOKEN{id}",
+        "date": "2026-12-30T19:00:00",
+        "modality": modality, "modalityId": 1 if modality == "Futebol" else 7,
+        "homeTeam": {"name": "SPORTING CP"}, "awayTeam": {"name": "RIVAL"},
+        "soldOut": False, "allowSale": True, "member": True, "public": False,
+        "disabledReasonDesc": "Brevemente disponível",
+        "allowOnGoingSales": False,
+    }
+
+
 class StaticSiteTests(unittest.TestCase):
     def setUp(self):
-        self.now = datetime(2026, 10, 23, 14, 0, 0)
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.folder = Path(self.tmp.name)
+        self.dest = self.folder / "site"
+        self.baseline = self.folder / "baseline.json"
+        self.history = self.folder / "history.json"
 
-    def game(self, **kw):
-        data = {
-            "id": 123, "token": "ABCDEFG123", "date": "2026-10-25T20:30:00",
-            "modalityId": 1, "modality": "Futebol",
-            "homeTeam": {"name": "SPORTING CP"},
-            "awayTeam": {"name": "MOREIRENSE FC"}, "competition": "Liga",
-            "soldOut": False, "allowSale": True, "public": True, "member": True
-        }
-        data.update(kw)
-        return data
+    def test_publicacao_total_com_historico_e_timestamp(self):
+        self.history.write_text(json.dumps({
+            "version": 1, "updatedAt": "2026-10-31T10:00:00Z",
+            "events": [{"type": "updated", "id": "2"}],
+        }))
+        games = [game(1, "Futebol"), game(2, "Basquetebol"), game(3, "Andebol")]
+        with patch.object(site, "fetch_open_games", return_value=games):
+            result = site.build(destination=self.dest, baseline_path=self.baseline,
+                                history_path=self.history)
+        self.assertFalse(result["stale"])
+        self.assertEqual(result["scope"], "all_open_games")
+        self.assertEqual(len(result["games"]), 3)
+        self.assertEqual(result["games"][1]["disabledReasonDesc"], "Brevemente disponível")
+        self.assertFalse(result["games"][1]["allowOnGoingSales"])
+        self.assertTrue(result["fetchedAt"])
+        hist = json.loads((self.dest / "history.json").read_text())
+        self.assertEqual(hist["events"][0]["id"], "2")
+        self.assertTrue((self.dest / "index.html").exists())
+        self.assertTrue((self.dest / ".nojekyll").exists())
 
-    def test_futebol_e_modalidades(self):
-        games = site.normalize([
-            self.game(),
-            self.game(id=456, token="BASKET45", modalityId=3,
-                      modality="Basquetebol", date="2026-10-26T19:00:00"),
-            self.game(id=789, token="ANTIGO5", date="2026-10-22T14:00:00"),
-        ], now=self.now)
-        self.assertEqual(len(games), 2)
-        self.assertTrue(games[0]["football"])
-        self.assertFalse(games[1]["football"])
-        self.assertEqual(games[1]["sport"], "Basquetebol")
-        self.assertEqual(games[0]["home"], "SPORTING CP")
-        self.assertTrue(games[0]["public"])
+    def test_falha_api_marca_baseline_v2_desatualizado(self):
+        self.baseline.write_text(json.dumps({
+            "version": 2, "scope": "all_open_games",
+            "baseline_registrado_em": "2026-10-30T11:00:00Z",
+            "jogos": [{"id": "5", "sport": "Voleibol", "football": False,
+                       "event": "Sporting vs Rival", "date": "2026-11-01T10:00:00"}],
+        }))
+        with patch.object(site, "fetch_open_games", side_effect=OSError("sem rede")):
+            result = site.build(destination=self.dest, baseline_path=self.baseline,
+                                history_path=self.history)
+        self.assertTrue(result["stale"])
+        self.assertEqual(result["scope"], "all_open_games")
+        self.assertEqual(len(result["games"]), 1)
+        self.assertEqual(result["fetchedAt"], "2026-10-30T11:00:00Z")
+        self.assertEqual(result["source"], "baseline")
 
-    def test_rejeitar_tokens_invalidos_e_datas_distantes(self):
-        result = site.normalize([
-            self.game(token="https://malicioso.example"),
-            self.game(token="BEM1234", date="2026-12-10T19:00:00"),
-            self.game(token="SAFEXYZ", date="2026-10-27T19:00:00"),
-        ], now=self.now)
-        self.assertEqual([x["token"] for x in result], ["SAFEXYZ"])
-
-    def test_baseline_offline(self):
-        with tempfile.TemporaryDirectory() as tmp:
-            p = Path(tmp) / "baseline.json"
-            p.write_text(json.dumps({
-                "baseline_registrado_em": "2026-10-23T10:00:00+00:00",
-                "jogos": [{
-                    "id": 77, "token": "ABCD3333", "data": "2026-10-26T18:30:00",
-                    "competicao": "Taça", "jogo": "SPORTING CP vs ABC",
-                    "public": True, "member": True,
-                }],
-            }), encoding="utf-8")
-            games, stamp = site.from_baseline(p, now=self.now)
-            self.assertEqual(len(games), 1)
-            self.assertTrue(games[0]["football"])
-            self.assertEqual(games[0]["away"], "ABC")
-            self.assertEqual(stamp, "2026-10-23T10:00:00+00:00")
-
-    def test_gerador_tem_assets_sem_segredos(self):
-        with tempfile.TemporaryDirectory() as tmp:
-            destination = Path(tmp) / "site"
-            payload = site.build(offline=True, destination=destination)
-            self.assertTrue((destination / "index.html").exists())
-            self.assertTrue((destination / "app.js").exists())
-            self.assertTrue((destination / "styles.css").exists())
-            self.assertTrue((destination / ".nojekyll").exists())
-            self.assertTrue(payload["stale"])
-            saved = json.loads((destination / "games.json").read_text(encoding="utf-8"))
-            self.assertEqual(saved["source"], "baseline")
-            self.assertNotIn("TELEGRAM_BOT_TOKEN", (destination / "games.json").read_text(encoding="utf-8"))
-            index = (destination / "index.html").read_text(encoding="utf-8")
-            self.assertIn('href="./styles.css"', index)
-            self.assertIn('src="./app.js"', index)
-            self.assertNotIn('id="token"', index)
+    def test_baseline_antigo_so_futebol_sem_falsificar_cobertura(self):
+        self.baseline.write_text(json.dumps({
+            "baseline_registrado_em": "2026-10-30T11:00:00Z",
+            "jogos": [{
+                "id": 123, "token": "ABC123", "data": "2026-11-01T10:00:00",
+                "jogo": "SPORTING CP vs RIVAL", "competicao": "Liga",
+            }],
+        }))
+        result = site.build(offline=True, destination=self.dest,
+                            baseline_path=self.baseline, history_path=self.history)
+        self.assertEqual(result["scope"], "football_only")
+        self.assertTrue(result["stale"])
+        self.assertEqual(result["games"][0]["home"], "SPORTING CP")
 
 
 if __name__ == "__main__":

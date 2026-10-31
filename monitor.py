@@ -1,292 +1,206 @@
 #!/usr/bin/env python3
-"""Monitor diário da bilheteira do Sporting CP (futebol) com alertas no Telegram."""
+"""Monitor de TODOS os eventos da API Sporting, com resumos e alertas Telegram."""
 import json
 import os
 import sys
 import traceback
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
+from pathlib import Path
 from zoneinfo import ZoneInfo
 
 import requests
+from sporting_data import (
+    FIELDS_TO_MONITOR, fetch_open_games, normalize_games, sale_status, ticket_url,
+)
 
-API_URL = "https://tickets.sporting.pt/api/match/allopengames"
-BASELINE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "baseline.json")
-TELEGRAM_TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
-TELEGRAM_CHAT_ID = os.environ["TELEGRAM_CHAT_ID"]
-JANELA_DIAS = 30
-LISBON_TZ = ZoneInfo("Europe/Lisbon")
-DIAS_PT = ["segunda", "terça", "quarta", "quinta", "sexta", "sábado", "domingo"]
-
-# Alguns sites bloqueiam o User-Agent predefinido do python-requests (403)
-HTTP_HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36",
-    "Accept": "application/json, text/plain, */*",
-    "Accept-Language": "pt-PT,pt;q=0.9,en;q=0.8",
-    "Referer": "https://tickets.sporting.pt/",
-}
+ROOT = Path(__file__).resolve().parent
+BASELINE_PATH = ROOT / "baseline.json"
+HISTORY_PATH = ROOT / "history.json"
+LISBON = ZoneInfo("Europe/Lisbon")
+SUMMARY_HOUR = 8
+HISTORY_LIMIT = 2000
 
 
-def fetch_open_games():
-    last_err = None
-    for tentativa in range(3):
-        try:
-            r = requests.get(API_URL, headers=HTTP_HEADERS, timeout=30)
-            r.raise_for_status()
-            return r.json()["data"]["openGames"]
-        except Exception as e:  # noqa: BLE001
-            last_err = e
-    raise last_err
+def load_json(path, default):
+    try:
+        return json.loads(Path(path).read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        return default
 
 
-def football_next_30_days(games):
-    now = datetime.now(timezone.utc)
-    cutoff = now + timedelta(days=JANELA_DIAS)
-    out = []
-    for g in games:
-        if g.get("modalityId") != 1 and g.get("modality") != "Futebol":
-            continue
-        try:
-            d = datetime.fromisoformat(g["date"]).replace(tzinfo=timezone.utc)
-        except (KeyError, ValueError):
-            continue
-        if now <= d <= cutoff:
-            out.append(g)
-    return sorted(out, key=lambda g: g["date"])
+def diff(current, previous):
+    old = {str(g["id"]): g for g in previous}
+    new = {str(g["id"]): g for g in current}
+    changes = []
+    for event_id in sorted(new.keys() - old.keys()):
+        changes.append({"type": "added", "id": event_id, "game": new[event_id], "fields": {}})
+    for event_id in sorted(old.keys() - new.keys()):
+        changes.append({"type": "left_open_games", "id": event_id, "game": old[event_id], "fields": {}})
+    for event_id in sorted(new.keys() & old.keys()):
+        fields = {
+            field: {"before": old[event_id].get(field), "after": new[event_id].get(field)}
+            for field in FIELDS_TO_MONITOR
+            if old[event_id].get(field) != new[event_id].get(field)
+        }
+        if fields:
+            changes.append({"type": "updated", "id": event_id, "game": new[event_id], "fields": fields})
+    return changes
 
 
-def extract(g):
-    return {
-        "id": g.get("id"),
-        "token": g.get("token"),
-        "data": g.get("date"),
-        "modalidade": "Futebol",
-        "competicao": (g.get("competition") or "").strip(),
-        "jogo": "%s vs %s" % ((g.get("homeTeam") or {}).get("name", "?"), (g.get("awayTeam") or {}).get("name", "?")),
-        "allowSale": g.get("allowSale"),
-        "soldOut": g.get("soldOut"),
-        "public": g.get("public"),
-        "member": g.get("member"),
-        "isDateConfirmed": g.get("isDateConfirmed"),
-    }
-
-
-def load_baseline():
-    if os.path.exists(BASELINE_PATH):
-        with open(BASELINE_PATH) as f:
-            return json.load(f)
-    return {"baseline_registrado_em": None, "jogos": []}
-
-
-def diff(current, baseline):
-    prev = {j["id"]: j for j in baseline.get("jogos", [])}
-    cur = {j["id"]: j for j in current}
-    novos = [cur[i] for i in cur if i not in prev]
-    alteracoes = []
-    campos = ["data", "competicao", "jogo", "allowSale", "soldOut", "public", "member", "isDateConfirmed"]
-    for i in cur:
-        if i in prev:
-            mudancas = [c for c in campos if cur[i].get(c) != prev[i].get(c)]
-            if mudancas:
-                alteracoes.append((cur[i], mudancas))
-    return novos, alteracoes
-
-
-def estado(j):
-    partes = []
-    if j["public"]:
-        partes.append("sócios + adeptos")
-    elif j["member"]:
-        partes.append("sócios")
-    else:
-        partes.append("venda não iniciada")
-    if j["soldOut"]:
-        partes.append("ESGOTADO")
-    if not j["allowSale"]:
-        partes.append("venda inativa")
-    if not j["isDateConfirmed"]:
-        partes.append("data provisória")
-    return " | " + " | ".join(partes)
-
-
-def fmt_jogo(j):
-    d = datetime.fromisoformat(j["data"])
-    link = "https://tickets.sporting.pt/" + str(j["token"])
-    return "%s (%s) %s — %s\n   %s%s\n   %s" % (
-        d.strftime("%d/%m"), DIAS_PT[d.weekday()], d.strftime("%H:%M"), j["competicao"],
-        j["jogo"], estado(j), link,
+def format_game(game):
+    return (
+        f"{game.get('sport') or 'Modalidade'} · {game.get('event')}\n"
+        f"Data: {game.get('date')} · ID: {game.get('id')}\n"
+        f"Estado: {sale_status(game)} · Público: {game.get('public')} · Sócios: {game.get('member')}\n"
+        f"{ticket_url(game)}"
     )
 
 
-def build_message(novos, alteracoes, current, incluir_resumo=True):
-    linhas = []
-    if novos:
-        linhas.append("🚨 Novo jogo à venda:")
-        for j in novos:
-            linhas.append(fmt_jogo(j))
-    if alteracoes:
-        if novos:
-            linhas.append("")
-        linhas.append("🔄 Alteração na bilheteira:")
-        for j, campos in alteracoes:
-            linhas.append(fmt_jogo(j))
-            linhas.append("   alterado: " + ", ".join(campos))
-    if incluir_resumo:
-        if not novos and not alteracoes:
-            linhas.append("ℹ️ Sem novidades na bilheteira de futebol do Sporting CP.")
-        linhas.append("")
-        linhas.append("Jogos de futebol em aberto nos próximos %d dias: %d" % (JANELA_DIAS, len(current)))
-        for j in current:
-            est = "esgotado" if j["soldOut"] else ("sócios+adeptos" if j["public"] else "sócios")
-            linhas.append("• %s (%s, %s) — %s" % (j["jogo"], j["competicao"], j["data"][:10], est))
-        linhas.append("")
-        linhas.append("🛒 https://tickets.sporting.pt/")
-    return "\n".join(linhas)
+def change_message(changes):
+    lines = ["🚨 Alterações confirmadas na bilheteira Sporting CP"]
+    for item in changes:
+        game = item["game"]
+        if item["type"] == "added":
+            lines.append("🆕 Passou a constar da API:\n" + format_game(game))
+        elif item["type"] == "left_open_games":
+            lines.append("📤 Deixou de constar da lista de jogos abertos (não implica cancelamento):\n" + format_game(game))
+        else:
+            details = [
+                f"  {name}: {vals['before']!r} → {vals['after']!r}"
+                for name, vals in item["fields"].items()
+            ]
+            lines.append("🔄 Alteração:\n" + format_game(game) + "\n" + "\n".join(details))
+    return "\n\n".join(lines)
 
 
-def send_telegram(text):
-    url = "https://api.telegram.org/bot%s/sendMessage" % TELEGRAM_TOKEN
-    while text:
-        chunk, text = text[:4096], text[4096:]
-        r = requests.post(url, json={
-            "chat_id": TELEGRAM_CHAT_ID,
-            "text": chunk,
-            "disable_web_page_preview": True,
-        }, timeout=30)
+def daily_message(current):
+    lines = [f"🎟️ Resumo diário Sporting CP — {len(current)} eventos em openGames"]
+    for g in current:
+        lines.append(format_game(g))
+    lines.append("Fonte: https://tickets.sporting.pt/api/match/allopengames")
+    return "\n\n".join(lines)
+
+
+def send_telegram(message):
+    token = os.environ.get("TELEGRAM_BOT_TOKEN")
+    chat_id = os.environ.get("TELEGRAM_CHAT_ID")
+    if not token or not chat_id:
+        raise RuntimeError("Secrets TELEGRAM_BOT_TOKEN e TELEGRAM_CHAT_ID em falta")
+    # Fragmentar por linha/parágrafo, respeitando limite Telegram, sem cortar URLs por norma.
+    chunks, chunk = [], ""
+    for line in message.splitlines(keepends=True):
+        while len(line) > 4096:
+            if chunk:
+                chunks.append(chunk)
+                chunk = ""
+            chunks.append(line[:4096])
+            line = line[4096:]
+        if len(chunk) + len(line) > 4096:
+            chunks.append(chunk)
+            chunk = ""
+        chunk += line
+    if chunk:
+        chunks.append(chunk)
+    for part in chunks:
+        r = requests.post(
+            f"https://api.telegram.org/bot{token}/sendMessage",
+            json={"chat_id": chat_id, "text": part, "disable_web_page_preview": True},
+            timeout=30,
+        )
         r.raise_for_status()
 
 
-def guardar_baseline(current, ultimo_resumo_diario_lisboa):
-    """Guarda o estado após confirmar o envio, permitindo deduplicar verificações."""
-    novo_baseline = {
-        "baseline_registrado_em": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        # Chave antiga mantida para compatibilidade com versões anteriores.
-        "ultimo_resumo_diario_utc": ultimo_resumo_diario_lisboa,
-        "ultimo_resumo_diario_lisboa": ultimo_resumo_diario_lisboa,
-        "jogos": current,
-    }
-    with open(BASELINE_PATH, "w") as f:
-        json.dump(novo_baseline, f, ensure_ascii=False, indent=2)
+def write_json(path, data):
+    p = Path(path)
+    temporary = p.with_suffix(p.suffix + ".tmp")
+    temporary.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    temporary.replace(p)
 
 
-def escrever_resumo_execucao(estado, inicio, jogos=None, novos=None,
-                            alteracoes=None, telegram=None, resumo=None):
-    """Resumo por execução em GitHub Actions, sem expor token nem chat ID."""
-    ficheiro = os.environ.get("GITHUB_STEP_SUMMARY")
-    if not ficheiro:
+def step_summary(status, current=None, changes=None, daily=False):
+    path = os.environ.get("GITHUB_STEP_SUMMARY")
+    if not path:
         return
-    registos = [
-        "",
-        "### Resultado da verificação",
-        f"- **Estado:** {estado}",
-        f"- **Executado (Lisboa):** {inicio.astimezone(LISBON_TZ).strftime('%Y-%m-%d %H:%M:%S %Z')}",
-    ]
-    for etiqueta, valor in (
-        ("Jogos de futebol", jogos),
-        ("Novos", novos),
-        ("Alterações", alteracoes),
-        ("Telegram", telegram),
-        ("Resumo diário", resumo),
-    ):
-        if valor is not None:
-            registos.append(f"- **{etiqueta}:** {valor}")
-    registos.append("")
-    try:
-        with open(ficheiro, "a", encoding="utf-8") as f:
-            f.write("\n".join(registos))
-    except OSError as e:
-        # Problemas ao gerar o relatório não podem impedir a consulta/alertas.
-        print("Aviso: não foi possível gravar o resumo da execução:", type(e).__name__)
+    with open(path, "a", encoding="utf-8") as stream:
+        stream.write(
+            f"\n### Verificação Sporting CP\n"
+            f"- Estado: {status}\n"
+            f"- Eventos da API: {len(current) if current is not None else 'indisponível'}\n"
+            f"- Alterações: {len(changes or [])}\n"
+            f"- Resumo diário: {'sim' if daily else 'não'}\n"
+        )
 
 
 def main():
-    inicio = datetime.now(timezone.utc)
-    local = inicio.astimezone(LISBON_TZ)
-    print("Início da verificação: Lisboa=%s; UTC=%s; evento=%s; run=%s." % (
-        local.isoformat(timespec="seconds"),
-        inicio.isoformat(timespec="seconds"),
-        os.environ.get("GITHUB_EVENT_NAME", "local"),
-        os.environ.get("GITHUB_RUN_ID", "manual"),
-    ), flush=True)
-
+    utc_now = datetime.now(timezone.utc)
+    today = utc_now.astimezone(LISBON).date().isoformat()
     try:
-        games = football_next_30_days(fetch_open_games())
-    except Exception as e:  # noqa: BLE001
-        # Um erro na consulta deve marcar a execução como falhada no GitHub Actions.
-        print("Falha ao consultar a bilheteira:", e)
+        current = normalize_games(fetch_open_games())
+    except Exception as exc:
+        print("Falha na API; baseline preservado:", type(exc).__name__, str(exc))
         traceback.print_exc()
-        escrever_resumo_execucao("FALHOU: consulta à bilheteira", inicio)
-        try:
-            send_telegram("⚠️ Monitor Sporting CP: hoje não consegui consultar a bilheteira (%s). Tenta em https://tickets.sporting.pt/" % type(e).__name__)
-            print("Telegram: aviso de falha da API enviado.")
-        except Exception as e2:  # noqa: BLE001
-            print("Falha também ao enviar aviso para o Telegram:", e2)
+        step_summary("API indisponível")
         return 1
 
-    current = [extract(g) for g in games]
-    baseline = load_baseline()
-    novos, alteracoes = diff(current, baseline)
+    baseline = load_json(BASELINE_PATH, {})
+    # Migração v1 -> v2: o histórico anterior só continha FUTEBOL; não
+    # podemos comparar com a lista completa e anunciar modalidades como novas.
+    compatible = baseline.get("version") == 2 and baseline.get("scope") == "all_open_games"
+    changes = diff(current, baseline.get("jogos", [])) if compatible else []
+    last_summary = baseline.get("ultimo_resumo_diario_lisboa")
+    if last_summary is None:
+        last_summary = baseline.get("ultimo_resumo_diario_utc")
+    send_daily = utc_now.astimezone(LISBON).hour >= SUMMARY_HOUR and last_summary != today
 
-    hoje_lisboa = local.date().isoformat()
-    if "ultimo_resumo_diario_lisboa" in baseline:
-        # None significa explicitamente que ainda não houve resumo.
-        ultimo_resumo = baseline["ultimo_resumo_diario_lisboa"]
-    else:
-        # Migrar valores antigos apenas quando o novo campo está ausente.
-        ultimo_resumo = baseline.get("ultimo_resumo_diario_utc")
-        if ultimo_resumo is None:
-            ultimo_resumo = (baseline.get("baseline_registrado_em") or "")[:10] or None
+    messages = []
+    if changes:
+        messages.append(change_message(changes))
+    if send_daily:
+        messages.append(daily_message(current))
+    try:
+        for message in messages:
+            send_telegram(message)
+    except Exception as exc:
+        print("Falha no Telegram; histórico não atualizado:", type(exc).__name__)
+        step_summary("Telegram indisponível", current, changes, send_daily)
+        return 1
 
-    # O resumo é enviado a partir das 12:00 de Lisboa, incluindo hora de inverno.
-    enviar_resumo = local.hour >= 12 and ultimo_resumo != hoje_lisboa
-    precisa_alertar = bool(novos or alteracoes or enviar_resumo)
-    print("Comparação: %d jogos; %d novos; %d alterações; último resumo=%s; "
-          "resumo de hoje=%s." % (
-              len(current), len(novos), len(alteracoes),
-              ultimo_resumo or "nenhum", "sim" if enviar_resumo else "não"
-          ), flush=True)
-
-    # O baseline apenas avança após o Telegram aceitar a mensagem.
-    # O grupo de concurrency no workflow serializa execuções sobre o mesmo baseline.
-    telegram = "Não enviado: sem novidades"
-    if precisa_alertar:
-        try:
-            send_telegram(build_message(novos, alteracoes, current, incluir_resumo=enviar_resumo))
-        except Exception as e:  # noqa: BLE001
-            print("Falha no envio do Telegram; baseline preservado:", type(e).__name__, e)
-            escrever_resumo_execucao("FALHOU: Telegram", inicio,
-                                    len(current), len(novos), len(alteracoes),
-                                    "Falhou; baseline não atualizado",
-                                    "Planeado" if enviar_resumo else "Não")
-            return 1
-        telegram = "Mensagem aceite pela API do Telegram"
-        print("Telegram: mensagem aceite; %d novos, %d alterações, resumo=%s." % (
-            len(novos), len(alteracoes), "sim" if enviar_resumo else "não"
-        ), flush=True)
-        if enviar_resumo:
-            ultimo_resumo = hoje_lisboa
-    else:
-        print("Telegram: não enviado; nenhuma novidade e resumo diário já emitido ou ainda não devido.")
-
-    # Evitar commits redundantes das seis verificações do dia.
-    atualizar = (current != baseline.get("jogos", []) or enviar_resumo or
-                 "ultimo_resumo_diario_lisboa" not in baseline)
-    if atualizar:
-        try:
-            guardar_baseline(current, ultimo_resumo)
-        except OSError as e:
-            print("Falha ao guardar baseline:", type(e).__name__, e)
-            escrever_resumo_execucao("FALHOU: gravação do baseline", inicio,
-                                    len(current), len(novos), len(alteracoes), telegram)
-            return 1
-        print("Baseline: atualizado para persistência no GitHub.")
-    else:
-        print("Baseline: inalterado (sem commit necessário).")
-
-    escrever_resumo_execucao("OK", inicio, len(current), len(novos),
-                            len(alteracoes), telegram,
-                            "Enviado" if enviar_resumo else "Não enviado")
-    print("OK: %d jogos, %d novos, %d alterações; resumo diário: %s." % (
-        len(current), len(novos), len(alteracoes), "sim" if enviar_resumo else "não"))
+    if send_daily:
+        last_summary = today
+    stamp = utc_now.isoformat(timespec="seconds")
+    new_baseline = {
+        "version": 2,
+        "scope": "all_open_games",
+        "baseline_registrado_em": stamp,
+        "ultimo_resumo_diario_lisboa": last_summary,
+        "jogos": current,
+    }
+    # Registar apenas as mudanças efetivamente notificadas. Uma migração sem
+    # histórico compatível inicia nova referência, sem falsas novidades.
+    history = load_json(HISTORY_PATH, {"version": 1, "events": []})
+    events = history.get("events", [])
+    if not isinstance(events, list):
+        events = []
+    if changes:
+        events.extend([
+            {
+                "observedAt": stamp, "type": c["type"], "id": c["id"],
+                "sport": c["game"].get("sport"), "event": c["game"].get("event"),
+                "date": c["game"].get("date"), "fields": c["fields"],
+            }
+            for c in changes
+        ])
+    if (not compatible or current != baseline.get("jogos")
+            or last_summary != baseline.get("ultimo_resumo_diario_lisboa")):
+        write_json(BASELINE_PATH, new_baseline)
+    if changes or not Path(HISTORY_PATH).exists():
+        write_json(HISTORY_PATH, {"version": 1, "updatedAt": stamp, "events": events[-HISTORY_LIMIT:]})
+    print(
+        f"OK: {len(current)} eventos (todas as modalidades), "
+        f"{len(changes)} alterações, resumo={'sim' if send_daily else 'não'}, "
+        f"base anterior compatível={'sim' if compatible else 'não'}."
+    )
+    step_summary("OK", current, changes, send_daily)
     return 0
 
 
