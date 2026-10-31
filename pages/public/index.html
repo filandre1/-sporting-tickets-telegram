@@ -39,7 +39,7 @@
         <div><p class="eyebrow">ALERTAS AUTOMÁTICOS</p><h2 id="telegram-heading">Telegram</h2></div>
       </div>
       <p class="status ok">Os alertas são executados pelo GitHub Actions, sem servidor pago.</p>
-      <p class="panel-text">Mantemos o monitor Python existente: verifica a bilheteira às 10h, 11h e 12h (Lisboa) e envia mensagens quando aparecem jogos novos ou há alterações. Mantém também o resumo diário.</p>
+      <p class="panel-text">O monitor verifica a API de hora a hora, incluindo futebol e modalidades, e envia alertas apenas para alterações confirmadas. O resumo diário é enviado na primeira consulta a partir das 08h00 (Lisboa).</p>
       <div class="info-card">
         <strong>Configuração privada</strong>
         <p>O site é público e estático: para proteger o token do bot, as credenciais ficam nos <strong>Secrets</strong> do GitHub, nunca numa página acessível a todos.</p>
