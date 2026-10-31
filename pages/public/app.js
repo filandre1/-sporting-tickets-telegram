@@ -1,5 +1,5 @@
 const $ = id => document.getElementById(id);
-const state = { games: [], filter: 'all', fetchedAt: null, generatedAt: null, stale: false, source: '' };
+const state = { games: [], filter: 'all', fetchedAt: null, generatedAt: null, stale: false, source: '', scope: '' };
 const weekdays = ['domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado'];
 
 function niceDate(value) {
@@ -41,11 +41,11 @@ function render() {
     tags.append(
       elt('span', 'tag', g.sport),
       elt('span', 'tag ' + (g.soldOut ? 'sold' : ''),
-        g.soldOut ? 'Esgotado' : g.allowSale ? 'À venda' : 'Venda indisponível')
+        g.soldOut ? 'Esgotado' : g.disabledReasonDesc ? g.disabledReasonDesc : g.allowSale === false ? 'Venda indisponível' : g.allowSale === true ? 'Venda permitida (confirmar)' : 'Estado não indicado')
     );
     if (g.location) tags.append(elt('span', 'tag muted', g.location));
-    const heading = elt('h3', '', g.home + ' vs ' + g.away);
-    const permission = g.public ? 'Sócios e público' : g.member ? 'Só sócios' : 'Consultar condições';
+    const heading = elt('h3', '', g.event || ((g.home || '') + ' vs ' + (g.away || '')));
+    const permission = g.public === true ? 'Acesso a público indicado' : g.member === true ? 'Acesso a sócios indicado' : 'Consultar condições';
     const meta = elt('p', 'meta', (g.competition || 'Competição') + ' · ' + permission);
     main.append(tags, heading, meta);
     if (/^[A-Za-z0-9_-]+$/.test(String(g.token || ''))) {
@@ -60,14 +60,14 @@ function render() {
   }
   if (!games.length) {
     target.append(elt('p', 'notice',
-      state.stale && state.filter === 'other'
+      state.stale && state.scope === 'football_only' && state.filter === 'other'
         ? 'Sem dados atuais sobre outras modalidades. A próxima recolha tentará atualizar a lista.'
         : 'Não existem jogos disponíveis neste filtro, segundo a última publicação.'
     ));
   }
   $('count').textContent = games.length + ' jogos · Última consulta: ' +
     formatTimestamp(state.fetchedAt) +
-    (state.stale ? ' · informação de recurso (só futebol)' : ' · Fonte: bilheteira oficial');
+    (state.stale ? ' · dados desatualizados (' + (state.scope === 'football_only' ? 'só futebol' : 'todas as modalidades') + ')' : ' · Fonte: bilheteira oficial');
 }
 async function loadGames() {
   const button = $('refresh');
@@ -81,10 +81,10 @@ async function loadGames() {
     if (!Array.isArray(data.games)) throw Error('Os dados de jogos não são válidos.');
     Object.assign(state, {
       games: data.games, fetchedAt: data.fetchedAt,
-      generatedAt: data.generatedAt, stale: Boolean(data.stale), source: data.source
+      generatedAt: data.generatedAt, stale: Boolean(data.stale), source: data.source, scope: data.scope
     });
     $('message').textContent = state.stale
-      ? 'Atenção: a última consulta falhou. Dados de recurso baseados no histórico de futebol.'
+      ? 'Atenção: a última consulta falhou. Informação desatualizada (' + (state.scope === 'football_only' ? 'apenas futebol' : 'futebol e modalidades') + ').'
       : 'Última publicação do GitHub Actions: ' + formatTimestamp(state.generatedAt) +
         '. Recarregar não força nova consulta à bilheteira.';
     render();
