@@ -124,7 +124,7 @@ class MonitorTests(unittest.TestCase):
         result = sporting_data.normalize_games([old, far])
         self.assertEqual(len(result), 2)
         self.assertEqual(result[0]["sport"], "Andebol")
-        self.assertIsNone(result[1]["allowOnGoingSales"] if "allowOnGoingSales" not in result[1] else None) if False else None
+        self.assertEqual(result[1]["sport"], "Voleibol")
 
     def test_resposta_incompleta_rejeitada(self):
         with self.assertRaises(ValueError):
