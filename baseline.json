@@ -1,28 +1,9 @@
 {
   "version": 2,
   "scope": "all_open_games",
-  "baseline_registrado_em": "2026-10-31T17:41:50+00:00",
-  "ultimo_resumo_diario_lisboa": "2026-10-31",
+  "baseline_registrado_em": "2026-11-01T15:04:32+00:00",
+  "ultimo_resumo_diario_lisboa": "2026-11-01",
   "jogos": [
-    {
-      "id": "21988",
-      "token": "UB0ZMG7DTL29",
-      "date": "2026-11-01T15:00:00",
-      "event": "FC PORTO vs SPORTING CP",
-      "sport": "Andebol",
-      "football": false,
-      "competition": "Campeonato Betclic",
-      "home": "FC PORTO",
-      "away": "SPORTING CP",
-      "soldOut": true,
-      "allowSale": true,
-      "allowOnGoingSales": false,
-      "disabledReasonDesc": "Esgotado",
-      "member": true,
-      "public": false,
-      "eclectic": false,
-      "isDateConfirmed": true
-    },
     {
       "id": "21981",
       "token": "0EAVVK6LG3C0",
