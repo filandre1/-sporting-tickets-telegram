@@ -1,28 +1,9 @@
 {
   "version": 2,
   "scope": "all_open_games",
-  "baseline_registrado_em": "2026-11-03T15:04:28+00:00",
+  "baseline_registrado_em": "2026-11-03T20:57:42+00:00",
   "ultimo_resumo_diario_lisboa": "2026-11-03",
   "jogos": [
-    {
-      "id": "21981",
-      "token": "0EAVVK6LG3C0",
-      "date": "2026-11-03T17:45:00",
-      "event": "FK SHAKHTAR DONETSK vs SPORTING CP",
-      "sport": "Futebol",
-      "football": true,
-      "competition": "Liga dos Campeões",
-      "home": "FK SHAKHTAR DONETSK",
-      "away": "SPORTING CP",
-      "soldOut": true,
-      "allowSale": true,
-      "allowOnGoingSales": true,
-      "disabledReasonDesc": "Período de compra encerrado",
-      "member": true,
-      "public": false,
-      "eclectic": false,
-      "isDateConfirmed": true
-    },
     {
       "id": "21989",
       "token": "0IDLF4EQDGBY",
@@ -78,6 +59,25 @@
       "member": true,
       "public": true,
       "eclectic": false,
+      "isDateConfirmed": true
+    },
+    {
+      "id": "21991",
+      "token": "R6UT1CLTUWBU",
+      "date": "2026-11-10T20:30:00",
+      "event": "SPORTING CP vs CANDELÁRIA SC",
+      "sport": "Hóquei",
+      "football": false,
+      "competition": "Campeonato Placard",
+      "home": "SPORTING CP",
+      "away": "CANDELÁRIA SC",
+      "soldOut": false,
+      "allowSale": true,
+      "allowOnGoingSales": false,
+      "disabledReasonDesc": "Esgotado",
+      "member": true,
+      "public": true,
+      "eclectic": true,
       "isDateConfirmed": true
     },
     {

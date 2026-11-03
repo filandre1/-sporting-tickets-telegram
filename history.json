@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-01T15:04:32+00:00",
+  "updatedAt": "2026-11-03T20:57:42+00:00",
   "events": [
     {
       "observedAt": "2026-11-01T15:04:32+00:00",
@@ -9,6 +9,24 @@
       "sport": "Andebol",
       "event": "FC PORTO vs SPORTING CP",
       "date": "2026-11-01T15:00:00",
+      "fields": {}
+    },
+    {
+      "observedAt": "2026-11-03T20:57:42+00:00",
+      "type": "added",
+      "id": "21991",
+      "sport": "Hóquei",
+      "event": "SPORTING CP vs CANDELÁRIA SC",
+      "date": "2026-11-10T20:30:00",
+      "fields": {}
+    },
+    {
+      "observedAt": "2026-11-03T20:57:42+00:00",
+      "type": "left_open_games",
+      "id": "21981",
+      "sport": "Futebol",
+      "event": "FK SHAKHTAR DONETSK vs SPORTING CP",
+      "date": "2026-11-03T17:45:00",
       "fields": {}
     }
   ]
