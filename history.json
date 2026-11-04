@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-03T20:57:42+00:00",
+  "updatedAt": "2026-11-04T17:11:55+00:00",
   "events": [
     {
       "observedAt": "2026-11-01T15:04:32+00:00",
@@ -27,6 +27,15 @@
       "sport": "Futebol",
       "event": "FK SHAKHTAR DONETSK vs SPORTING CP",
       "date": "2026-11-03T17:45:00",
+      "fields": {}
+    },
+    {
+      "observedAt": "2026-11-04T17:11:55+00:00",
+      "type": "added",
+      "id": "21992",
+      "sport": "Voleibol",
+      "event": "SPORTING CP vs KHILASEDICHI BAKU",
+      "date": "2026-11-11T19:30:00",
       "fields": {}
     }
   ]

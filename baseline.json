@@ -1,7 +1,7 @@
 {
   "version": 2,
   "scope": "all_open_games",
-  "baseline_registrado_em": "2026-11-04T09:06:28+00:00",
+  "baseline_registrado_em": "2026-11-04T17:11:55+00:00",
   "ultimo_resumo_diario_lisboa": "2026-11-04",
   "jogos": [
     {
@@ -71,6 +71,25 @@
       "competition": "Campeonato Placard",
       "home": "SPORTING CP",
       "away": "CANDELÁRIA SC",
+      "soldOut": false,
+      "allowSale": true,
+      "allowOnGoingSales": false,
+      "disabledReasonDesc": "Esgotado",
+      "member": true,
+      "public": true,
+      "eclectic": true,
+      "isDateConfirmed": true
+    },
+    {
+      "id": "21992",
+      "token": "SQCHIUJCP7P0",
+      "date": "2026-11-11T19:30:00",
+      "event": "SPORTING CP vs KHILASEDICHI BAKU",
+      "sport": "Voleibol",
+      "football": false,
+      "competition": "CEV Champions League",
+      "home": "SPORTING CP",
+      "away": "KHILASEDICHI BAKU",
       "soldOut": false,
       "allowSale": true,
       "allowOnGoingSales": false,
