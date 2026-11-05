@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-04T17:11:55+00:00",
+  "updatedAt": "2026-11-05T19:58:33+00:00",
   "events": [
     {
       "observedAt": "2026-11-01T15:04:32+00:00",
@@ -37,6 +37,20 @@
       "event": "SPORTING CP vs KHILASEDICHI BAKU",
       "date": "2026-11-11T19:30:00",
       "fields": {}
+    },
+    {
+      "observedAt": "2026-11-05T19:58:33+00:00",
+      "type": "updated",
+      "id": "21980",
+      "sport": "Futebol",
+      "event": "SPORTING CP vs MOREIRENSE FC",
+      "date": "2026-11-07T20:30:00",
+      "fields": {
+        "disabledReasonDesc": {
+          "before": "Temporariamente indisponível",
+          "after": "Temporariamente esgotado"
+        }
+      }
     }
   ]
 }

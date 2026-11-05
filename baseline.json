@@ -1,8 +1,8 @@
 {
   "version": 2,
   "scope": "all_open_games",
-  "baseline_registrado_em": "2026-11-04T17:11:55+00:00",
-  "ultimo_resumo_diario_lisboa": "2026-11-04",
+  "baseline_registrado_em": "2026-11-05T19:58:33+00:00",
+  "ultimo_resumo_diario_lisboa": "2026-11-05",
   "jogos": [
     {
       "id": "21989",
@@ -55,7 +55,7 @@
       "soldOut": false,
       "allowSale": true,
       "allowOnGoingSales": false,
-      "disabledReasonDesc": "Temporariamente indisponível",
+      "disabledReasonDesc": "Temporariamente esgotado",
       "member": true,
       "public": true,
       "eclectic": false,
