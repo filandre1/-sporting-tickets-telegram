@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-05T19:58:33+00:00",
+  "updatedAt": "2026-11-06T15:53:46+00:00",
   "events": [
     {
       "observedAt": "2026-11-01T15:04:32+00:00",
@@ -51,6 +51,24 @@
           "after": "Temporariamente esgotado"
         }
       }
+    },
+    {
+      "observedAt": "2026-11-06T15:53:46+00:00",
+      "type": "added",
+      "id": "21995",
+      "sport": "Basquetebol",
+      "event": "SPORTING CP vs CD PÓVOA ESC ONLINE",
+      "date": "2026-11-14T18:30:00",
+      "fields": {}
+    },
+    {
+      "observedAt": "2026-11-06T15:53:46+00:00",
+      "type": "added",
+      "id": "21998",
+      "sport": "Andebol",
+      "event": "MARÍTIMO MADEIRA SAD vs SPORTING CP",
+      "date": "2026-11-12T19:30:00",
+      "fields": {}
     }
   ]
 }
