@@ -1,7 +1,7 @@
 {
   "version": 2,
   "scope": "all_open_games",
-  "baseline_registrado_em": "2026-11-06T15:53:46+00:00",
+  "baseline_registrado_em": "2026-11-06T21:28:17+00:00",
   "ultimo_resumo_diario_lisboa": "2026-11-06",
   "jogos": [
     {
@@ -109,7 +109,7 @@
       "competition": "Campeonato Betclic",
       "home": "MARÍTIMO MADEIRA SAD",
       "away": "SPORTING CP",
-      "soldOut": true,
+      "soldOut": false,
       "allowSale": true,
       "allowOnGoingSales": false,
       "disabledReasonDesc": "Brevemente disponível",
@@ -128,7 +128,7 @@
       "competition": "Liga Betclic",
       "home": "SPORTING CP",
       "away": "CD PÓVOA ESC ONLINE",
-      "soldOut": true,
+      "soldOut": false,
       "allowSale": true,
       "allowOnGoingSales": false,
       "disabledReasonDesc": "Brevemente disponível",
