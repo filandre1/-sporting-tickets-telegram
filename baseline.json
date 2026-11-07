@@ -1,28 +1,9 @@
 {
   "version": 2,
   "scope": "all_open_games",
-  "baseline_registrado_em": "2026-11-07T20:13:27+00:00",
+  "baseline_registrado_em": "2026-11-07T23:38:02+00:00",
   "ultimo_resumo_diario_lisboa": "2026-11-07",
   "jogos": [
-    {
-      "id": "21980",
-      "token": "ULABYNDXPGF9",
-      "date": "2026-11-07T20:30:00",
-      "event": "SPORTING CP vs MOREIRENSE FC",
-      "sport": "Futebol",
-      "football": true,
-      "competition": "Liga Portugal Betclic",
-      "home": "SPORTING CP",
-      "away": "MOREIRENSE FC",
-      "soldOut": false,
-      "allowSale": true,
-      "allowOnGoingSales": false,
-      "disabledReasonDesc": "Temporariamente esgotado",
-      "member": true,
-      "public": true,
-      "eclectic": false,
-      "isDateConfirmed": true
-    },
     {
       "id": "21991",
       "token": "R6UT1CLTUWBU",

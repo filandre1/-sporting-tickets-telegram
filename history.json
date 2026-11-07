@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-07T20:13:27+00:00",
+  "updatedAt": "2026-11-07T23:38:02+00:00",
   "events": [
     {
       "observedAt": "2026-11-01T15:04:32+00:00",
@@ -114,6 +114,15 @@
       "sport": "Voleibol",
       "event": "SPORTING CP vs CMGC",
       "date": "2026-11-07T18:00:00",
+      "fields": {}
+    },
+    {
+      "observedAt": "2026-11-07T23:38:02+00:00",
+      "type": "left_open_games",
+      "id": "21980",
+      "sport": "Futebol",
+      "event": "SPORTING CP vs MOREIRENSE FC",
+      "date": "2026-11-07T20:30:00",
       "fields": {}
     }
   ]
