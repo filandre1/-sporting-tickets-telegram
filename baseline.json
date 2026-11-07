@@ -1,28 +1,9 @@
 {
   "version": 2,
   "scope": "all_open_games",
-  "baseline_registrado_em": "2026-11-07T08:43:28+00:00",
+  "baseline_registrado_em": "2026-11-07T15:38:33+00:00",
   "ultimo_resumo_diario_lisboa": "2026-11-07",
   "jogos": [
-    {
-      "id": "21989",
-      "token": "0IDLF4EQDGBY",
-      "date": "2026-11-07T15:00:00",
-      "event": "SPORTING CP vs VITÓRIA SC",
-      "sport": "Basquetebol",
-      "football": false,
-      "competition": "Liga Betclic",
-      "home": "SPORTING CP",
-      "away": "VITÓRIA SC",
-      "soldOut": false,
-      "allowSale": true,
-      "allowOnGoingSales": false,
-      "disabledReasonDesc": "Brevemente disponível",
-      "member": true,
-      "public": true,
-      "eclectic": true,
-      "isDateConfirmed": true
-    },
     {
       "id": "21990",
       "token": "KJ89YKH9HXP8",
