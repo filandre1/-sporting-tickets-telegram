@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-07T15:38:33+00:00",
+  "updatedAt": "2026-11-07T20:13:27+00:00",
   "events": [
     {
       "observedAt": "2026-11-01T15:04:32+00:00",
@@ -105,6 +105,15 @@
       "sport": "Basquetebol",
       "event": "SPORTING CP vs VITÓRIA SC",
       "date": "2026-11-07T15:00:00",
+      "fields": {}
+    },
+    {
+      "observedAt": "2026-11-07T20:13:27+00:00",
+      "type": "left_open_games",
+      "id": "21990",
+      "sport": "Voleibol",
+      "event": "SPORTING CP vs CMGC",
+      "date": "2026-11-07T18:00:00",
       "fields": {}
     }
   ]
