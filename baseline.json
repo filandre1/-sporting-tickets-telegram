@@ -1,8 +1,8 @@
 {
   "version": 2,
   "scope": "all_open_games",
-  "baseline_registrado_em": "2026-11-08T13:17:35+00:00",
-  "ultimo_resumo_diario_lisboa": "2026-11-08",
+  "baseline_registrado_em": "2026-11-09T11:25:11+00:00",
+  "ultimo_resumo_diario_lisboa": "2026-11-09",
   "jogos": [
     {
       "id": "21991",
@@ -77,6 +77,25 @@
       "disabledReasonDesc": "Brevemente disponível",
       "member": true,
       "public": true,
+      "eclectic": true,
+      "isDateConfirmed": true
+    },
+    {
+      "id": "21996",
+      "token": "75AJJH7YTZUB",
+      "date": "2026-11-19T19:45:00",
+      "event": "SPORTING CP vs DÍNAMO BUCURESTI",
+      "sport": "Andebol",
+      "football": false,
+      "competition": "EHF Champions League",
+      "home": "SPORTING CP",
+      "away": "DÍNAMO BUCURESTI",
+      "soldOut": false,
+      "allowSale": true,
+      "allowOnGoingSales": false,
+      "disabledReasonDesc": "Brevemente disponível",
+      "member": true,
+      "public": false,
       "eclectic": true,
       "isDateConfirmed": true
     },
