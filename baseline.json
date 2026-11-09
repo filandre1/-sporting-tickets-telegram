@@ -1,7 +1,7 @@
 {
   "version": 2,
   "scope": "all_open_games",
-  "baseline_registrado_em": "2026-11-09T11:25:11+00:00",
+  "baseline_registrado_em": "2026-11-09T22:17:41+00:00",
   "ultimo_resumo_diario_lisboa": "2026-11-09",
   "jogos": [
     {
@@ -100,6 +100,25 @@
       "isDateConfirmed": true
     },
     {
+      "id": "21999",
+      "token": "7LV0F3KJC4UV",
+      "date": "2026-11-21T18:00:00",
+      "event": "SPORTING CP vs UD DA SERRA",
+      "sport": "Futebol",
+      "football": true,
+      "competition": "Taça de Portugal",
+      "home": "SPORTING CP",
+      "away": "UD DA SERRA",
+      "soldOut": true,
+      "allowSale": true,
+      "allowOnGoingSales": false,
+      "disabledReasonDesc": "Brevemente disponível",
+      "member": true,
+      "public": false,
+      "eclectic": false,
+      "isDateConfirmed": true
+    },
+    {
       "id": "21954",
       "token": "US2SN4F05PGZ",
       "date": "2026-11-25T20:00:00",
@@ -109,6 +128,25 @@
       "competition": "Liga dos Campeões",
       "home": "SPORTING CP",
       "away": "MANCHESTER UNITED FC",
+      "soldOut": false,
+      "allowSale": true,
+      "allowOnGoingSales": false,
+      "disabledReasonDesc": "Brevemente disponível",
+      "member": true,
+      "public": false,
+      "eclectic": false,
+      "isDateConfirmed": true
+    },
+    {
+      "id": "21997",
+      "token": "8M2TA4AFWKYO",
+      "date": "2027-01-20T20:00:00",
+      "event": "SPORTING CP vs FC BARCELONA",
+      "sport": "Futebol",
+      "football": true,
+      "competition": "Liga dos Campeões",
+      "home": "SPORTING CP",
+      "away": "FC BARCELONA",
       "soldOut": false,
       "allowSale": true,
       "allowOnGoingSales": false,
