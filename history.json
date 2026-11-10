@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-10T13:26:22+00:00",
+  "updatedAt": "2026-11-10T20:48:00+00:00",
   "events": [
     {
       "observedAt": "2026-11-01T15:04:32+00:00",
@@ -215,6 +215,15 @@
           "after": false
         }
       }
+    },
+    {
+      "observedAt": "2026-11-10T20:48:00+00:00",
+      "type": "left_open_games",
+      "id": "21991",
+      "sport": "Hóquei",
+      "event": "SPORTING CP vs CANDELÁRIA SC",
+      "date": "2026-11-10T20:30:00",
+      "fields": {}
     }
   ]
 }

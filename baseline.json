@@ -1,28 +1,9 @@
 {
   "version": 2,
   "scope": "all_open_games",
-  "baseline_registrado_em": "2026-11-10T13:26:22+00:00",
+  "baseline_registrado_em": "2026-11-10T20:48:00+00:00",
   "ultimo_resumo_diario_lisboa": "2026-11-10",
   "jogos": [
-    {
-      "id": "21991",
-      "token": "R6UT1CLTUWBU",
-      "date": "2026-11-10T20:30:00",
-      "event": "SPORTING CP vs CANDELÁRIA SC",
-      "sport": "Hóquei",
-      "football": false,
-      "competition": "Campeonato Placard",
-      "home": "SPORTING CP",
-      "away": "CANDELÁRIA SC",
-      "soldOut": true,
-      "allowSale": true,
-      "allowOnGoingSales": false,
-      "disabledReasonDesc": "Período de compra encerrado",
-      "member": true,
-      "public": true,
-      "eclectic": true,
-      "isDateConfirmed": true
-    },
     {
       "id": "21992",
       "token": "SQCHIUJCP7P0",
