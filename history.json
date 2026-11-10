@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-09T22:17:41+00:00",
+  "updatedAt": "2026-11-10T13:26:22+00:00",
   "events": [
     {
       "observedAt": "2026-11-01T15:04:32+00:00",
@@ -151,6 +151,70 @@
       "event": "SPORTING CP vs UD DA SERRA",
       "date": "2026-11-21T18:00:00",
       "fields": {}
+    },
+    {
+      "observedAt": "2026-11-10T13:26:22+00:00",
+      "type": "updated",
+      "id": "21991",
+      "sport": "Hóquei",
+      "event": "SPORTING CP vs CANDELÁRIA SC",
+      "date": "2026-11-10T20:30:00",
+      "fields": {
+        "soldOut": {
+          "before": false,
+          "after": true
+        },
+        "disabledReasonDesc": {
+          "before": "Esgotado",
+          "after": "Período de compra encerrado"
+        }
+      }
+    },
+    {
+      "observedAt": "2026-11-10T13:26:22+00:00",
+      "type": "updated",
+      "id": "21992",
+      "sport": "Voleibol",
+      "event": "SPORTING CP vs KHILASEDICHI BAKU",
+      "date": "2026-11-11T19:30:00",
+      "fields": {
+        "soldOut": {
+          "before": false,
+          "after": true
+        },
+        "disabledReasonDesc": {
+          "before": "Esgotado",
+          "after": "Período de compra encerrado"
+        }
+      }
+    },
+    {
+      "observedAt": "2026-11-10T13:26:22+00:00",
+      "type": "updated",
+      "id": "21998",
+      "sport": "Andebol",
+      "event": "MARÍTIMO MADEIRA SAD vs SPORTING CP",
+      "date": "2026-11-12T19:30:00",
+      "fields": {
+        "disabledReasonDesc": {
+          "before": "Brevemente disponível",
+          "after": "Período de compra encerrado"
+        }
+      }
+    },
+    {
+      "observedAt": "2026-11-10T13:26:22+00:00",
+      "type": "updated",
+      "id": "21999",
+      "sport": "Futebol",
+      "event": "SPORTING CP vs UD DA SERRA",
+      "date": "2026-11-21T18:00:00",
+      "fields": {
+        "soldOut": {
+          "before": true,
+          "after": false
+        }
+      }
     }
   ]
 }
