@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-11T16:08:00+00:00",
+  "updatedAt": "2026-11-11T22:40:24+00:00",
   "events": [
     {
       "observedAt": "2026-11-01T15:04:32+00:00",
@@ -327,6 +327,125 @@
         "public": {
           "before": false,
           "after": true
+        }
+      }
+    },
+    {
+      "observedAt": "2026-11-11T22:40:24+00:00",
+      "type": "left_open_games",
+      "id": "21992",
+      "sport": "Voleibol",
+      "event": "SPORTING CP vs KHILASEDICHI BAKU",
+      "date": "2026-11-11T19:30:00",
+      "fields": {}
+    },
+    {
+      "observedAt": "2026-11-11T22:40:24+00:00",
+      "type": "updated",
+      "id": "21954",
+      "sport": "Futebol",
+      "event": "SPORTING CP vs MANCHESTER UNITED FC",
+      "date": "2026-11-25T20:00:00",
+      "fields": {
+        "soldOut": {
+          "before": true,
+          "after": false
+        },
+        "disabledReasonDesc": {
+          "before": "Brevemente disponível",
+          "after": "Temporariamente indisponível"
+        }
+      }
+    },
+    {
+      "observedAt": "2026-11-11T22:40:24+00:00",
+      "type": "updated",
+      "id": "21995",
+      "sport": "Basquetebol",
+      "event": "SPORTING CP vs CD PÓVOA ESC ONLINE",
+      "date": "2026-11-14T18:30:00",
+      "fields": {
+        "soldOut": {
+          "before": true,
+          "after": false
+        }
+      }
+    },
+    {
+      "observedAt": "2026-11-11T22:40:24+00:00",
+      "type": "updated",
+      "id": "21996",
+      "sport": "Andebol",
+      "event": "SPORTING CP vs DÍNAMO BUCURESTI",
+      "date": "2026-11-19T19:45:00",
+      "fields": {
+        "soldOut": {
+          "before": true,
+          "after": false
+        }
+      }
+    },
+    {
+      "observedAt": "2026-11-11T22:40:24+00:00",
+      "type": "updated",
+      "id": "21997",
+      "sport": "Futebol",
+      "event": "SPORTING CP vs FC BARCELONA",
+      "date": "2027-01-20T20:00:00",
+      "fields": {
+        "soldOut": {
+          "before": true,
+          "after": false
+        },
+        "disabledReasonDesc": {
+          "before": "Brevemente disponível",
+          "after": "Temporariamente indisponível"
+        }
+      }
+    },
+    {
+      "observedAt": "2026-11-11T22:40:24+00:00",
+      "type": "updated",
+      "id": "21998",
+      "sport": "Andebol",
+      "event": "MARÍTIMO MADEIRA SAD vs SPORTING CP",
+      "date": "2026-11-12T19:30:00",
+      "fields": {
+        "soldOut": {
+          "before": true,
+          "after": false
+        }
+      }
+    },
+    {
+      "observedAt": "2026-11-11T22:40:24+00:00",
+      "type": "updated",
+      "id": "21999",
+      "sport": "Futebol",
+      "event": "SPORTING CP vs UD DA SERRA",
+      "date": "2026-11-21T18:00:00",
+      "fields": {
+        "soldOut": {
+          "before": true,
+          "after": false
+        },
+        "disabledReasonDesc": {
+          "before": "Brevemente disponível",
+          "after": "Temporariamente indisponível"
+        }
+      }
+    },
+    {
+      "observedAt": "2026-11-11T22:40:24+00:00",
+      "type": "updated",
+      "id": "22001",
+      "sport": "Basquetebol",
+      "event": "SPORTING CP vs SCM UNIVERSITATEA CRAIOVA",
+      "date": "2026-11-18T19:30:00",
+      "fields": {
+        "soldOut": {
+          "before": true,
+          "after": false
         }
       }
     }
