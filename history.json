@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-11T22:40:24+00:00",
+  "updatedAt": "2026-11-12T20:46:43+00:00",
   "events": [
     {
       "observedAt": "2026-11-01T15:04:32+00:00",
@@ -448,6 +448,42 @@
           "after": false
         }
       }
+    },
+    {
+      "observedAt": "2026-11-12T20:46:43+00:00",
+      "type": "added",
+      "id": "22002",
+      "sport": "Voleibol",
+      "event": "SPORTING CP vs CLUBE KAIRÓS",
+      "date": "2026-11-20T19:30:00",
+      "fields": {}
+    },
+    {
+      "observedAt": "2026-11-12T20:46:43+00:00",
+      "type": "added",
+      "id": "22003",
+      "sport": "Basquetebol",
+      "event": "SPORTING CP vs PORTIMONENSE SC",
+      "date": "2026-11-21T15:00:00",
+      "fields": {}
+    },
+    {
+      "observedAt": "2026-11-12T20:46:43+00:00",
+      "type": "added",
+      "id": "22004",
+      "sport": "Hóquei",
+      "event": "SPORTING CP vs SL BENFICA",
+      "date": "2026-11-22T19:30:00",
+      "fields": {}
+    },
+    {
+      "observedAt": "2026-11-12T20:46:43+00:00",
+      "type": "left_open_games",
+      "id": "21998",
+      "sport": "Andebol",
+      "event": "MARÍTIMO MADEIRA SAD vs SPORTING CP",
+      "date": "2026-11-12T19:30:00",
+      "fields": {}
     }
   ]
 }
