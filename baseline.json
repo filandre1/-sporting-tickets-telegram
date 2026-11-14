@@ -1,28 +1,9 @@
 {
   "version": 2,
   "scope": "all_open_games",
-  "baseline_registrado_em": "2026-11-14T13:29:51+00:00",
+  "baseline_registrado_em": "2026-11-14T19:08:00+00:00",
   "ultimo_resumo_diario_lisboa": "2026-11-14",
   "jogos": [
-    {
-      "id": "21995",
-      "token": "UM0N6D3JOF7E",
-      "date": "2026-11-14T18:30:00",
-      "event": "SPORTING CP vs CD PÓVOA ESC ONLINE",
-      "sport": "Basquetebol",
-      "football": false,
-      "competition": "Liga Betclic",
-      "home": "SPORTING CP",
-      "away": "CD PÓVOA ESC ONLINE",
-      "soldOut": false,
-      "allowSale": true,
-      "allowOnGoingSales": false,
-      "disabledReasonDesc": "Brevemente disponível",
-      "member": true,
-      "public": true,
-      "eclectic": true,
-      "isDateConfirmed": true
-    },
     {
       "id": "22001",
       "token": "5AXA9QS6ZC66",

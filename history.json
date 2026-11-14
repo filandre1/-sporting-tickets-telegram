@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-12T20:46:43+00:00",
+  "updatedAt": "2026-11-14T19:08:00+00:00",
   "events": [
     {
       "observedAt": "2026-11-01T15:04:32+00:00",
@@ -483,6 +483,15 @@
       "sport": "Andebol",
       "event": "MARÍTIMO MADEIRA SAD vs SPORTING CP",
       "date": "2026-11-12T19:30:00",
+      "fields": {}
+    },
+    {
+      "observedAt": "2026-11-14T19:08:00+00:00",
+      "type": "left_open_games",
+      "id": "21995",
+      "sport": "Basquetebol",
+      "event": "SPORTING CP vs CD PÓVOA ESC ONLINE",
+      "date": "2026-11-14T18:30:00",
       "fields": {}
     }
   ]
