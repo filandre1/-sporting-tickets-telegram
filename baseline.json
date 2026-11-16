@@ -1,7 +1,7 @@
 {
   "version": 2,
   "scope": "all_open_games",
-  "baseline_registrado_em": "2026-11-16T11:06:37+00:00",
+  "baseline_registrado_em": "2026-11-16T20:59:59+00:00",
   "ultimo_resumo_diario_lisboa": "2026-11-16",
   "jogos": [
     {
@@ -147,9 +147,9 @@
       "competition": "Liga dos Campeões",
       "home": "SPORTING CP",
       "away": "FC BARCELONA",
-      "soldOut": true,
+      "soldOut": false,
       "allowSale": true,
-      "allowOnGoingSales": true,
+      "allowOnGoingSales": false,
       "disabledReasonDesc": "Brevemente disponível",
       "member": true,
       "public": false,
