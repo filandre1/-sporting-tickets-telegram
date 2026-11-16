@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-14T19:08:00+00:00",
+  "updatedAt": "2026-11-16T11:06:37+00:00",
   "events": [
     {
       "observedAt": "2026-11-01T15:04:32+00:00",
@@ -493,6 +493,28 @@
       "event": "SPORTING CP vs CD PÓVOA ESC ONLINE",
       "date": "2026-11-14T18:30:00",
       "fields": {}
+    },
+    {
+      "observedAt": "2026-11-16T11:06:37+00:00",
+      "type": "updated",
+      "id": "21997",
+      "sport": "Futebol",
+      "event": "SPORTING CP vs FC BARCELONA",
+      "date": "2027-01-20T20:00:00",
+      "fields": {
+        "soldOut": {
+          "before": false,
+          "after": true
+        },
+        "allowOnGoingSales": {
+          "before": false,
+          "after": true
+        },
+        "disabledReasonDesc": {
+          "before": "Temporariamente indisponível",
+          "after": "Brevemente disponível"
+        }
+      }
     }
   ]
 }
