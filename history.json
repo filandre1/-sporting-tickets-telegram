@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-16T20:59:59+00:00",
+  "updatedAt": "2026-11-17T13:17:01+00:00",
   "events": [
     {
       "observedAt": "2026-11-01T15:04:32+00:00",
@@ -533,6 +533,15 @@
           "after": false
         }
       }
+    },
+    {
+      "observedAt": "2026-11-17T13:17:01+00:00",
+      "type": "added",
+      "id": "22000",
+      "sport": "Futebol",
+      "event": "SPORTING CP vs CS MARÍTIMO",
+      "date": "2026-12-04T20:15:00",
+      "fields": {}
     }
   ]
 }

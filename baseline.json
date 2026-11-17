@@ -1,8 +1,8 @@
 {
   "version": 2,
   "scope": "all_open_games",
-  "baseline_registrado_em": "2026-11-16T20:59:59+00:00",
-  "ultimo_resumo_diario_lisboa": "2026-11-16",
+  "baseline_registrado_em": "2026-11-17T13:17:01+00:00",
+  "ultimo_resumo_diario_lisboa": "2026-11-17",
   "jogos": [
     {
       "id": "22001",
@@ -132,6 +132,25 @@
       "allowSale": true,
       "allowOnGoingSales": false,
       "disabledReasonDesc": "Temporariamente indisponível",
+      "member": true,
+      "public": false,
+      "eclectic": false,
+      "isDateConfirmed": true
+    },
+    {
+      "id": "22000",
+      "token": "LQRM0FHE229H",
+      "date": "2026-12-04T20:15:00",
+      "event": "SPORTING CP vs CS MARÍTIMO",
+      "sport": "Futebol",
+      "football": true,
+      "competition": "Liga Portugal Betclic",
+      "home": "SPORTING CP",
+      "away": "CS MARÍTIMO",
+      "soldOut": false,
+      "allowSale": true,
+      "allowOnGoingSales": false,
+      "disabledReasonDesc": "Brevemente disponível",
       "member": true,
       "public": false,
       "eclectic": false,
