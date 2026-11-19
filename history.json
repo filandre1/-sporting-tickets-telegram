@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-19T12:57:58+00:00",
+  "updatedAt": "2026-11-19T21:28:26+00:00",
   "events": [
     {
       "observedAt": "2026-11-01T15:04:32+00:00",
@@ -592,6 +592,24 @@
           "after": true
         }
       }
+    },
+    {
+      "observedAt": "2026-11-19T21:28:26+00:00",
+      "type": "added",
+      "id": "22014",
+      "sport": "Hóquei",
+      "event": "SPORTING CP vs OC BARCELOS",
+      "date": "2026-11-26T20:00:00",
+      "fields": {}
+    },
+    {
+      "observedAt": "2026-11-19T21:28:26+00:00",
+      "type": "left_open_games",
+      "id": "21996",
+      "sport": "Andebol",
+      "event": "SPORTING CP vs DÍNAMO BUCURESTI",
+      "date": "2026-11-19T19:45:00",
+      "fields": {}
     }
   ]
 }
