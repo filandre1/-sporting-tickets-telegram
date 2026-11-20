@@ -1,28 +1,9 @@
 {
   "version": 2,
   "scope": "all_open_games",
-  "baseline_registrado_em": "2026-11-20T11:28:51+00:00",
+  "baseline_registrado_em": "2026-11-20T20:08:03+00:00",
   "ultimo_resumo_diario_lisboa": "2026-11-20",
   "jogos": [
-    {
-      "id": "22002",
-      "token": "OOXSHPQY0ZIC",
-      "date": "2026-11-20T19:30:00",
-      "event": "SPORTING CP vs CLUBE KAIRÓS",
-      "sport": "Voleibol",
-      "football": false,
-      "competition": "Liga Una Seguros",
-      "home": "SPORTING CP",
-      "away": "CLUBE KAIRÓS",
-      "soldOut": false,
-      "allowSale": true,
-      "allowOnGoingSales": false,
-      "disabledReasonDesc": "Esgotado",
-      "member": true,
-      "public": true,
-      "eclectic": true,
-      "isDateConfirmed": true
-    },
     {
       "id": "22003",
       "token": "PDSYFUGAU1T3",

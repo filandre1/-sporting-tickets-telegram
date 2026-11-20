@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-20T11:28:51+00:00",
+  "updatedAt": "2026-11-20T20:08:03+00:00",
   "events": [
     {
       "observedAt": "2026-11-01T15:04:32+00:00",
@@ -624,6 +624,15 @@
           "after": "Temporariamente indisponível"
         }
       }
+    },
+    {
+      "observedAt": "2026-11-20T20:08:03+00:00",
+      "type": "left_open_games",
+      "id": "22002",
+      "sport": "Voleibol",
+      "event": "SPORTING CP vs CLUBE KAIRÓS",
+      "date": "2026-11-20T19:30:00",
+      "fields": {}
     }
   ]
 }
