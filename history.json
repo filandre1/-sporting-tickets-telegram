@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-19T21:28:26+00:00",
+  "updatedAt": "2026-11-20T11:28:51+00:00",
   "events": [
     {
       "observedAt": "2026-11-01T15:04:32+00:00",
@@ -610,6 +610,20 @@
       "event": "SPORTING CP vs DÍNAMO BUCURESTI",
       "date": "2026-11-19T19:45:00",
       "fields": {}
+    },
+    {
+      "observedAt": "2026-11-20T11:28:51+00:00",
+      "type": "updated",
+      "id": "22000",
+      "sport": "Futebol",
+      "event": "SPORTING CP vs CS MARÍTIMO",
+      "date": "2026-12-04T20:15:00",
+      "fields": {
+        "disabledReasonDesc": {
+          "before": "Brevemente disponível",
+          "after": "Temporariamente indisponível"
+        }
+      }
     }
   ]
 }
