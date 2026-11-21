@@ -1,28 +1,9 @@
 {
   "version": 2,
   "scope": "all_open_games",
-  "baseline_registrado_em": "2026-11-21T09:43:14+00:00",
+  "baseline_registrado_em": "2026-11-21T17:26:55+00:00",
   "ultimo_resumo_diario_lisboa": "2026-11-21",
   "jogos": [
-    {
-      "id": "22003",
-      "token": "PDSYFUGAU1T3",
-      "date": "2026-11-21T15:00:00",
-      "event": "SPORTING CP vs PORTIMONENSE SC",
-      "sport": "Basquetebol",
-      "football": false,
-      "competition": "Liga Betclic",
-      "home": "SPORTING CP",
-      "away": "PORTIMONENSE SC",
-      "soldOut": false,
-      "allowSale": true,
-      "allowOnGoingSales": false,
-      "disabledReasonDesc": "Esgotado",
-      "member": true,
-      "public": true,
-      "eclectic": true,
-      "isDateConfirmed": true
-    },
     {
       "id": "21999",
       "token": "7LV0F3KJC4UV",
