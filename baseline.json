@@ -1,7 +1,7 @@
 {
   "version": 2,
   "scope": "all_open_games",
-  "baseline_registrado_em": "2026-11-20T20:08:03+00:00",
+  "baseline_registrado_em": "2026-11-21T01:28:13+00:00",
   "ultimo_resumo_diario_lisboa": "2026-11-20",
   "jogos": [
     {
@@ -147,6 +147,25 @@
       "competition": "WSE Champions League",
       "home": "SPORTING CP",
       "away": "OC BARCELOS",
+      "soldOut": false,
+      "allowSale": true,
+      "allowOnGoingSales": false,
+      "disabledReasonDesc": "Esgotado",
+      "member": true,
+      "public": true,
+      "eclectic": true,
+      "isDateConfirmed": true
+    },
+    {
+      "id": "22015",
+      "token": "0F520EVA7AAZ",
+      "date": "2026-11-28T21:15:00",
+      "event": "SPORTING CP vs SCU TORREENSE",
+      "sport": "Futsal",
+      "football": false,
+      "competition": "Liga Placard",
+      "home": "SPORTING CP",
+      "away": "SCU TORREENSE",
       "soldOut": false,
       "allowSale": true,
       "allowOnGoingSales": false,

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-20T20:08:03+00:00",
+  "updatedAt": "2026-11-21T01:28:13+00:00",
   "events": [
     {
       "observedAt": "2026-11-01T15:04:32+00:00",
@@ -632,6 +632,15 @@
       "sport": "Voleibol",
       "event": "SPORTING CP vs CLUBE KAIRÓS",
       "date": "2026-11-20T19:30:00",
+      "fields": {}
+    },
+    {
+      "observedAt": "2026-11-21T01:28:13+00:00",
+      "type": "added",
+      "id": "22015",
+      "sport": "Futsal",
+      "event": "SPORTING CP vs SCU TORREENSE",
+      "date": "2026-11-28T21:15:00",
       "fields": {}
     }
   ]
