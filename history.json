@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-21T23:10:22+00:00",
+  "updatedAt": "2026-11-22T18:29:47+00:00",
   "events": [
     {
       "observedAt": "2026-11-01T15:04:32+00:00",
@@ -677,6 +677,15 @@
       "sport": "Modalidades",
       "event": "Teamgym Cup - Passe 2 dias",
       "date": "2026-11-21T20:30:00",
+      "fields": {}
+    },
+    {
+      "observedAt": "2026-11-22T18:29:47+00:00",
+      "type": "left_open_games",
+      "id": "22010",
+      "sport": "Modalidades",
+      "event": "Teamgym Cup - Dia 22 | 08h30-12h00",
+      "date": "2026-11-22T12:00:00",
       "fields": {}
     }
   ]

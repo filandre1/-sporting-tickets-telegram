@@ -1,28 +1,9 @@
 {
   "version": 2,
   "scope": "all_open_games",
-  "baseline_registrado_em": "2026-11-22T11:13:59+00:00",
+  "baseline_registrado_em": "2026-11-22T18:29:47+00:00",
   "ultimo_resumo_diario_lisboa": "2026-11-22",
   "jogos": [
-    {
-      "id": "22010",
-      "token": "ATER9AEHIBHR",
-      "date": "2026-11-22T12:00:00",
-      "event": "Teamgym Cup - Dia 22 | 08h30-12h00",
-      "sport": "Modalidades",
-      "football": false,
-      "competition": "5º TEAMGYM CUP LISBOA",
-      "home": "TEAMGYM CUP",
-      "away": "SESSÃO DIA 22",
-      "soldOut": false,
-      "allowSale": true,
-      "allowOnGoingSales": false,
-      "disabledReasonDesc": "Esgotado",
-      "member": false,
-      "public": true,
-      "eclectic": false,
-      "isDateConfirmed": true
-    },
     {
       "id": "22004",
       "token": "2DV6FD87DWYH",
