@@ -1,8 +1,8 @@
 {
   "version": 2,
   "scope": "all_open_games",
-  "baseline_registrado_em": "2026-11-23T00:15:43+00:00",
-  "ultimo_resumo_diario_lisboa": "2026-11-22",
+  "baseline_registrado_em": "2026-11-23T20:09:09+00:00",
+  "ultimo_resumo_diario_lisboa": "2026-11-23",
   "jogos": [
     {
       "id": "21954",
@@ -59,6 +59,25 @@
       "member": true,
       "public": true,
       "eclectic": true,
+      "isDateConfirmed": true
+    },
+    {
+      "id": "22007",
+      "token": "8R1UK0JHGNPU",
+      "date": "2026-11-29T20:30:00",
+      "event": "FC PORTO vs SPORTING CP",
+      "sport": "Futebol",
+      "football": true,
+      "competition": "Liga Portugal Betclic",
+      "home": "FC PORTO",
+      "away": "SPORTING CP",
+      "soldOut": true,
+      "allowSale": true,
+      "allowOnGoingSales": false,
+      "disabledReasonDesc": "Temporariamente indisponível",
+      "member": true,
+      "public": false,
+      "eclectic": false,
       "isDateConfirmed": true
     },
     {
