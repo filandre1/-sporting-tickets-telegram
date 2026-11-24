@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-23T20:09:09+00:00",
+  "updatedAt": "2026-11-24T15:49:54+00:00",
   "events": [
     {
       "observedAt": "2026-11-01T15:04:32+00:00",
@@ -705,6 +705,47 @@
       "event": "FC PORTO vs SPORTING CP",
       "date": "2026-11-29T20:30:00",
       "fields": {}
+    },
+    {
+      "observedAt": "2026-11-24T15:49:54+00:00",
+      "type": "added",
+      "id": "22016",
+      "sport": "Voleibol",
+      "event": "SPORTING CP vs ALA GONDOMAR",
+      "date": "2026-12-01T18:00:00",
+      "fields": {}
+    },
+    {
+      "observedAt": "2026-11-24T15:49:54+00:00",
+      "type": "added",
+      "id": "22017",
+      "sport": "Hóquei",
+      "event": "SPORTING CP vs AD OEIRAS",
+      "date": "2026-12-01T14:30:00",
+      "fields": {}
+    },
+    {
+      "observedAt": "2026-11-24T15:49:54+00:00",
+      "type": "added",
+      "id": "22018",
+      "sport": "Andebol",
+      "event": "SPORTING CP vs BARÇA",
+      "date": "2026-12-03T19:45:00",
+      "fields": {}
+    },
+    {
+      "observedAt": "2026-11-24T15:49:54+00:00",
+      "type": "updated",
+      "id": "22007",
+      "sport": "Futebol",
+      "event": "FC PORTO vs SPORTING CP",
+      "date": "2026-11-29T20:30:00",
+      "fields": {
+        "disabledReasonDesc": {
+          "before": "Temporariamente indisponível",
+          "after": "Brevemente disponível"
+        }
+      }
     }
   ]
 }
