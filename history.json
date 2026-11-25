@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-25T00:39:04+00:00",
+  "updatedAt": "2026-11-25T19:55:04+00:00",
   "events": [
     {
       "observedAt": "2026-11-01T15:04:32+00:00",
@@ -774,6 +774,15 @@
           "after": "2026-12-01T15:00:00"
         }
       }
+    },
+    {
+      "observedAt": "2026-11-25T19:55:04+00:00",
+      "type": "added",
+      "id": "22020",
+      "sport": "Futsal",
+      "event": "SPORTING CP vs TFK BEITAR",
+      "date": "2026-12-05T20:00:00",
+      "fields": {}
     }
   ]
 }

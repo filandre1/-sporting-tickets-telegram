@@ -1,7 +1,7 @@
 {
   "version": 2,
   "scope": "all_open_games",
-  "baseline_registrado_em": "2026-11-25T09:48:42+00:00",
+  "baseline_registrado_em": "2026-11-25T19:55:04+00:00",
   "ultimo_resumo_diario_lisboa": "2026-11-25",
   "jogos": [
     {
@@ -154,6 +154,25 @@
       "member": true,
       "public": true,
       "eclectic": false,
+      "isDateConfirmed": true
+    },
+    {
+      "id": "22020",
+      "token": "MVYH5S947EGJ",
+      "date": "2026-12-05T20:00:00",
+      "event": "SPORTING CP vs TFK BEITAR",
+      "sport": "Futsal",
+      "football": false,
+      "competition": "UEFA Futsal Champions League",
+      "home": "SPORTING CP",
+      "away": "TFK BEITAR",
+      "soldOut": false,
+      "allowSale": true,
+      "allowOnGoingSales": false,
+      "disabledReasonDesc": "Esgotado",
+      "member": true,
+      "public": false,
+      "eclectic": true,
       "isDateConfirmed": true
     },
     {
