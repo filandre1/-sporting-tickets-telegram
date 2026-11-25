@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-24T15:49:54+00:00",
+  "updatedAt": "2026-11-25T00:39:04+00:00",
   "events": [
     {
       "observedAt": "2026-11-01T15:04:32+00:00",
@@ -744,6 +744,34 @@
         "disabledReasonDesc": {
           "before": "Temporariamente indisponível",
           "after": "Brevemente disponível"
+        }
+      }
+    },
+    {
+      "observedAt": "2026-11-25T00:39:04+00:00",
+      "type": "updated",
+      "id": "22007",
+      "sport": "Futebol",
+      "event": "FC PORTO vs SPORTING CP",
+      "date": "2026-11-29T20:30:00",
+      "fields": {
+        "disabledReasonDesc": {
+          "before": "Brevemente disponível",
+          "after": "Esgotado"
+        }
+      }
+    },
+    {
+      "observedAt": "2026-11-25T00:39:04+00:00",
+      "type": "updated",
+      "id": "22017",
+      "sport": "Hóquei",
+      "event": "SPORTING CP vs AD OEIRAS",
+      "date": "2026-12-01T15:00:00",
+      "fields": {
+        "date": {
+          "before": "2026-12-01T14:30:00",
+          "after": "2026-12-01T15:00:00"
         }
       }
     }

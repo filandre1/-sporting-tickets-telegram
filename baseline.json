@@ -1,7 +1,7 @@
 {
   "version": 2,
   "scope": "all_open_games",
-  "baseline_registrado_em": "2026-11-24T15:49:54+00:00",
+  "baseline_registrado_em": "2026-11-25T00:39:04+00:00",
   "ultimo_resumo_diario_lisboa": "2026-11-24",
   "jogos": [
     {
@@ -74,7 +74,7 @@
       "soldOut": true,
       "allowSale": true,
       "allowOnGoingSales": false,
-      "disabledReasonDesc": "Brevemente disponível",
+      "disabledReasonDesc": "Esgotado",
       "member": true,
       "public": false,
       "eclectic": false,
@@ -83,7 +83,7 @@
     {
       "id": "22017",
       "token": "PPAVJKQ4YNLY",
-      "date": "2026-12-01T14:30:00",
+      "date": "2026-12-01T15:00:00",
       "event": "SPORTING CP vs AD OEIRAS",
       "sport": "Hóquei",
       "football": false,
