@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-26T12:22:14+00:00",
+  "updatedAt": "2026-11-26T22:17:22+00:00",
   "events": [
     {
       "observedAt": "2026-11-01T15:04:32+00:00",
@@ -806,6 +806,42 @@
           "after": true
         }
       }
+    },
+    {
+      "observedAt": "2026-11-26T22:17:22+00:00",
+      "type": "added",
+      "id": "22005",
+      "sport": "Futebol",
+      "event": "AS ROMA vs SPORTING CP",
+      "date": "2026-12-08T21:00:00",
+      "fields": {}
+    },
+    {
+      "observedAt": "2026-11-26T22:17:22+00:00",
+      "type": "added",
+      "id": "22029",
+      "sport": "Modalidades",
+      "event": "Sarau Ginástica de Natal - Sessão 1º",
+      "date": "2026-12-12T09:00:00",
+      "fields": {}
+    },
+    {
+      "observedAt": "2026-11-26T22:17:22+00:00",
+      "type": "added",
+      "id": "22030",
+      "sport": "Modalidades",
+      "event": "Sarau Ginástica de Natal - Sessão 2º",
+      "date": "2026-12-12T12:00:00",
+      "fields": {}
+    },
+    {
+      "observedAt": "2026-11-26T22:17:22+00:00",
+      "type": "left_open_games",
+      "id": "22014",
+      "sport": "Hóquei",
+      "event": "SPORTING CP vs OC BARCELOS",
+      "date": "2026-11-26T20:00:00",
+      "fields": {}
     }
   ]
 }
