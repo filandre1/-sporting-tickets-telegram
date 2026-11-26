@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-26T02:47:54+00:00",
+  "updatedAt": "2026-11-26T12:22:14+00:00",
   "events": [
     {
       "observedAt": "2026-11-01T15:04:32+00:00",
@@ -792,6 +792,20 @@
       "event": "SPORTING CP vs MANCHESTER UNITED FC",
       "date": "2026-11-25T20:00:00",
       "fields": {}
+    },
+    {
+      "observedAt": "2026-11-26T12:22:14+00:00",
+      "type": "updated",
+      "id": "22018",
+      "sport": "Andebol",
+      "event": "SPORTING CP vs BARÇA",
+      "date": "2026-12-03T19:45:00",
+      "fields": {
+        "public": {
+          "before": false,
+          "after": true
+        }
+      }
     }
   ]
 }
