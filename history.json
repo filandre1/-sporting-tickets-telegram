@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-25T19:55:04+00:00",
+  "updatedAt": "2026-11-26T02:47:54+00:00",
   "events": [
     {
       "observedAt": "2026-11-01T15:04:32+00:00",
@@ -782,6 +782,15 @@
       "sport": "Futsal",
       "event": "SPORTING CP vs TFK BEITAR",
       "date": "2026-12-05T20:00:00",
+      "fields": {}
+    },
+    {
+      "observedAt": "2026-11-26T02:47:54+00:00",
+      "type": "left_open_games",
+      "id": "21954",
+      "sport": "Futebol",
+      "event": "SPORTING CP vs MANCHESTER UNITED FC",
+      "date": "2026-11-25T20:00:00",
       "fields": {}
     }
   ]

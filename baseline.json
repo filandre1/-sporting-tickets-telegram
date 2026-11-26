@@ -1,28 +1,9 @@
 {
   "version": 2,
   "scope": "all_open_games",
-  "baseline_registrado_em": "2026-11-25T19:55:04+00:00",
+  "baseline_registrado_em": "2026-11-26T02:47:54+00:00",
   "ultimo_resumo_diario_lisboa": "2026-11-25",
   "jogos": [
-    {
-      "id": "21954",
-      "token": "US2SN4F05PGZ",
-      "date": "2026-11-25T20:00:00",
-      "event": "SPORTING CP vs MANCHESTER UNITED FC",
-      "sport": "Futebol",
-      "football": true,
-      "competition": "Liga dos Campeões",
-      "home": "SPORTING CP",
-      "away": "MANCHESTER UNITED FC",
-      "soldOut": false,
-      "allowSale": true,
-      "allowOnGoingSales": false,
-      "disabledReasonDesc": "Temporariamente indisponível",
-      "member": true,
-      "public": false,
-      "eclectic": false,
-      "isDateConfirmed": true
-    },
     {
       "id": "22014",
       "token": "HQAPZI1VV42Z",
