@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-26T22:17:22+00:00",
+  "updatedAt": "2026-11-27T14:59:29+00:00",
   "events": [
     {
       "observedAt": "2026-11-01T15:04:32+00:00",
@@ -842,6 +842,38 @@
       "event": "SPORTING CP vs OC BARCELOS",
       "date": "2026-11-26T20:00:00",
       "fields": {}
+    },
+    {
+      "observedAt": "2026-11-27T14:59:29+00:00",
+      "type": "updated",
+      "id": "22018",
+      "sport": "Andebol",
+      "event": "SPORTING CP vs BARÇA",
+      "date": "2026-12-03T19:45:00",
+      "fields": {
+        "soldOut": {
+          "before": false,
+          "after": true
+        },
+        "disabledReasonDesc": {
+          "before": "Brevemente disponível",
+          "after": "Esgotado"
+        }
+      }
+    },
+    {
+      "observedAt": "2026-11-27T14:59:29+00:00",
+      "type": "updated",
+      "id": "22020",
+      "sport": "Futsal",
+      "event": "SPORTING CP vs TFK BEITAR",
+      "date": "2026-12-05T20:00:00",
+      "fields": {
+        "public": {
+          "before": false,
+          "after": true
+        }
+      }
     }
   ]
 }

@@ -1,8 +1,8 @@
 {
   "version": 2,
   "scope": "all_open_games",
-  "baseline_registrado_em": "2026-11-26T22:17:22+00:00",
-  "ultimo_resumo_diario_lisboa": "2026-11-26",
+  "baseline_registrado_em": "2026-11-27T14:59:29+00:00",
+  "ultimo_resumo_diario_lisboa": "2026-11-27",
   "jogos": [
     {
       "id": "22015",
@@ -90,10 +90,10 @@
       "competition": "EHF Champions League",
       "home": "SPORTING CP",
       "away": "BARÇA",
-      "soldOut": false,
+      "soldOut": true,
       "allowSale": true,
       "allowOnGoingSales": false,
-      "disabledReasonDesc": "Brevemente disponível",
+      "disabledReasonDesc": "Esgotado",
       "member": true,
       "public": true,
       "eclectic": true,
@@ -133,7 +133,7 @@
       "allowOnGoingSales": false,
       "disabledReasonDesc": "Esgotado",
       "member": true,
-      "public": false,
+      "public": true,
       "eclectic": true,
       "isDateConfirmed": true
     },
