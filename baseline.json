@@ -1,7 +1,7 @@
 {
   "version": 2,
   "scope": "all_open_games",
-  "baseline_registrado_em": "2026-11-27T14:59:29+00:00",
+  "baseline_registrado_em": "2026-11-27T23:25:10+00:00",
   "ultimo_resumo_diario_lisboa": "2026-11-27",
   "jogos": [
     {
@@ -119,6 +119,25 @@
       "isDateConfirmed": true
     },
     {
+      "id": "22019",
+      "token": "12G5YJJESKKW",
+      "date": "2026-12-05T15:00:00",
+      "event": "SPORTING CP vs FC PORTO",
+      "sport": "Basquetebol",
+      "football": false,
+      "competition": "Liga Betclic",
+      "home": "SPORTING CP",
+      "away": "FC PORTO",
+      "soldOut": false,
+      "allowSale": true,
+      "allowOnGoingSales": false,
+      "disabledReasonDesc": "Esgotado",
+      "member": true,
+      "public": false,
+      "eclectic": true,
+      "isDateConfirmed": true
+    },
+    {
       "id": "22020",
       "token": "MVYH5S947EGJ",
       "date": "2026-12-05T20:00:00",
@@ -138,6 +157,25 @@
       "isDateConfirmed": true
     },
     {
+      "id": "22034",
+      "token": "XM38NNDORZ1G",
+      "date": "2026-12-06T21:00:00",
+      "event": "SL BENFICA vs SPORTING CP",
+      "sport": "Andebol",
+      "football": false,
+      "competition": "Campeonato Betclic",
+      "home": "SL BENFICA",
+      "away": "SPORTING CP",
+      "soldOut": false,
+      "allowSale": true,
+      "allowOnGoingSales": false,
+      "disabledReasonDesc": "Esgotado",
+      "member": true,
+      "public": false,
+      "eclectic": false,
+      "isDateConfirmed": true
+    },
+    {
       "id": "22005",
       "token": "QGN7ZTBJJV11",
       "date": "2026-12-08T21:00:00",
@@ -147,10 +185,10 @@
       "competition": "Liga dos Campeões",
       "home": "AS ROMA",
       "away": "SPORTING CP",
-      "soldOut": false,
+      "soldOut": true,
       "allowSale": true,
       "allowOnGoingSales": false,
-      "disabledReasonDesc": "Brevemente disponível",
+      "disabledReasonDesc": "Esgotado",
       "member": true,
       "public": false,
       "eclectic": false,

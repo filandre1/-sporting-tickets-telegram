@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T14:59:29+00:00",
+  "updatedAt": "2026-11-27T23:25:10+00:00",
   "events": [
     {
       "observedAt": "2026-11-01T15:04:32+00:00",
@@ -872,6 +872,42 @@
         "public": {
           "before": false,
           "after": true
+        }
+      }
+    },
+    {
+      "observedAt": "2026-11-27T23:25:10+00:00",
+      "type": "added",
+      "id": "22019",
+      "sport": "Basquetebol",
+      "event": "SPORTING CP vs FC PORTO",
+      "date": "2026-12-05T15:00:00",
+      "fields": {}
+    },
+    {
+      "observedAt": "2026-11-27T23:25:10+00:00",
+      "type": "added",
+      "id": "22034",
+      "sport": "Andebol",
+      "event": "SL BENFICA vs SPORTING CP",
+      "date": "2026-12-06T21:00:00",
+      "fields": {}
+    },
+    {
+      "observedAt": "2026-11-27T23:25:10+00:00",
+      "type": "updated",
+      "id": "22005",
+      "sport": "Futebol",
+      "event": "AS ROMA vs SPORTING CP",
+      "date": "2026-12-08T21:00:00",
+      "fields": {
+        "soldOut": {
+          "before": false,
+          "after": true
+        },
+        "disabledReasonDesc": {
+          "before": "Brevemente disponível",
+          "after": "Esgotado"
         }
       }
     }
